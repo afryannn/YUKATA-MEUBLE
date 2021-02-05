@@ -25,15 +25,24 @@
                   class="text-green"
                   v-model="username"
                   label="Username"
-                  :rules="[v => !!v || 'Mohon isi username']"
-                  @keyup.enter.native="login"
                 ></v-text-field>
+                <p v-show="alertUsername" style="color: red; font-size: 13px">
+                  * Mohon Isi username!
+                </p>
+                 <p v-show="this.eUsername" style="color: red; font-size: 13px">
+                  * Username Tidak Ditemukan!
+                </p>
+                 <p v-show="this.ePassword" style="color: red; font-size: 13px">
+                  * Password Salah!
+                </p>
                 <v-text-field
                   class="text-green"
                   v-model="password"
                   label="Password"
-                  required
                 ></v-text-field>
+                <p v-show="alertPassword" style="color: red; font-size: 13px">
+                  * Password Kosong!
+                </p>
                 <v-btn class="mr-4 btn-green" @click="Masuk">Masuk</v-btn>
                 <router-link
                   style="text-decoration: none; color: inherit; font-size: 13px"
@@ -58,49 +67,67 @@ export default {
     return {
       username: "",
       password: "",
+      alertUsername: false,
+      alertPassword: false,
+      eUsername:false,
+      ePassword:false,
       result: [],
     };
   },
   methods: {
     async Masuk() {
-      var bodyFormData = new FormData();
-      bodyFormData.append("username", this.username);
-      bodyFormData.append("password", this.password);
-      await axios({
-        method: "post",
-        url:`${this.$api}login`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          var role = response.data.DATA.role_user;
-          var message = response.data.MESSAGE;
-          if(message == "username tidak ditemukan"){
-            console.log("username tidak ditemukan");
-          }else if(message == "PASSWORD SALAH")
-          {
-            console.log("pass username tidak ditemukan");
-          }
-          else{
-               localStorage.setItem('user-id', response.data.DATA.id)
-               localStorage.setItem('username', response.data.DATA.username)
-               localStorage.setItem('email', response.data.DATA.email)
-               localStorage.setItem('role_user', response.data.DATA.role_user)
-               localStorage.setItem('isAuth',"true")
-            if(role == "SELLER"){
-              this.$router.replace({name:"Dashboard"});
-            }else if(role == "VISITOR"){
-              this.$store.commit("setAuthentication",true);
-              this.$router.replace({name:"Home"});
-            }
-          }
-
-        })
-        .catch(function (response) {
-          console.log(response);
-        });
-       }
-
+      if (!this.username) {
+        this.alertUsername = true;
+        this.eUsername = false
+        this.ePassword = false
+      } else {
+        this.alertUsername = false;
+        if (!this.password) {
+          this.alertPassword = true;
+          this.eUsername = false
+          this.ePassword = false
+        } else {
+          this.alertPassword = false;
+          var bodyFormData = new FormData();
+          bodyFormData.append("username", this.username);
+          bodyFormData.append("password", this.password);
+          await axios({
+            method: "post",
+            url: `${this.$api}login`,
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
+          })
+            .then((response) => {
+              var message = response.data.MESSAGE;
+              if (message == "ERR-USERNOTFOUND") {
+                this.eUsername = true
+                this.alertUsername = false
+                this.alertPassword = false
+              } else if (message == "ERR-PASSWRONG") {
+                this.eUsername = false
+                this.ePassword = true
+                this.alertUsername = false
+                this.alertPassword = false
+              } else {
+                var role = response.data.DATA.role_user;
+                localStorage.setItem("user-id", response.data.DATA.id);
+                localStorage.setItem("username", response.data.DATA.username);
+                localStorage.setItem("email", response.data.DATA.email);
+                localStorage.setItem("role_user", role);
+                if (role == "SELLER") {
+                  this.$router.replace({ name: "Dashboard" });
+                } else if (role == "VISITOR") {
+                  this.$store.commit("setAuthentication", true);
+                  this.$router.replace({ name: "Home" });
+                }
+              }
+            })
+            .catch(function (response) {
+              console.log(response);
+            });
+        }
+      }
+    },
   },
 };
 </script>

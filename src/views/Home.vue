@@ -4,7 +4,7 @@
       <div class="my-container">
         <div class="my-navbar">
           <div class="my-logo">
-            <img src="../assets/images/logo.png" width="125px" />
+            <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
             <ul id="MenuItems">
@@ -24,7 +24,12 @@
                 <router-link to="/Login">Login</router-link>
               </li>
               <li v-else>
-                <router-link to="/About">{{this.username}}</router-link>
+                <div v-if="(this.role == 'SELLER')">
+                  <router-link to="/Dashboard">Dashboard</router-link>
+                </div>
+                <div v-else>
+                  <router-link to="/">{{this.username}}</router-link>
+                </div>
               </li>
             </ul>
           </nav>
@@ -32,7 +37,7 @@
           <img
             src="../assets/images/menu.png"
             class="menu-icon"
-            @click="menutoggle"
+            @click="menutoggle()"
           />
         </div>
         <div class="my-row">
@@ -72,43 +77,63 @@
   </div>
 </template>
 <script>
-import NewProduk from "../components/home/NewProduct.vue"
-import ListProduk from "../components/home/ListProduct.vue"
-import Footer from "../components/Footer.vue"
+import NewProduk from "../components/home/NewProduct.vue";
+import ListProduk from "../components/home/ListProduct.vue";
+import Footer from "../components/Footer.vue";
 
 export default {
-      components:{
-        NewProduk,
-        ListProduk,
-        Footer,
-    },
-   data(){
-     return{
-       id :'',
-       username :'',
-     }
-   },
-  mounted(){
-
-     this.id = localStorage.getItem('user-id');
-     this.username = localStorage.getItem('username');
+  components: {
+    NewProduk,
+    ListProduk,
+    Footer,
+  },
+  data() {
+    return {
+      id: "",
+      username: "",
+      role: "",
+      // Nav:false
+    };
+  },
+  mounted() {
+    this.id = localStorage.getItem("user-id");
+    this.username = localStorage.getItem("username");
+    this.role = localStorage.getItem("role_user");
+    console.log(document.getElementById("MenuItems"))
   },
   methods: {
     menutoggle() {
-      var MenuItems = document.getElementById("MenuItems");
-      MenuItems.style.maxHeight = "0px";
-      if (MenuItems.style.maxHeight == "0px") {
-        MenuItems.style.maxHeight = "200px";
-      } else {
-        MenuItems.style.maxHeight = "0px";
-      }
+       //   var MenuItems = document.getElementById("MenuItems");
+      // // this.Nav = true
+      // if(this.Nav == false){
+      //   this.Nav = true
+      // }else if(this.Nav == true){
+      //   this.Nav = false
+      // }
+    //   var MenuItems = document.getElementById("MenuItems");
+    //  // var click = false;
+    //   if(MenuItems){
+    //     MenuItems.style.maxHeight = "0px";
+    //     console.log(MenuItems);
+    //   }else{
+    //     MenuItems.style.maxHeight = "200px";
+    //   }
+      // if (click == true) {
+      //   MenuItems.style.maxHeight = "200px";
+      //   console.log("knjibn");
+      // }
+      //  else {
+      //   console.log("haha");
+      //   MenuItems.style.maxHeight = "0px";
+      // }
     },
   },
+
 };
 </script>
 <style>
 .hover-c {
-  font-weight:normal;
+  font-weight: normal;
   background: #28df99;
   border-radius: 30px;
   padding: 8px 30px;

@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+
+
+<html lang="en">
+
+
+<head>
+
+
+    <meta charset="UTF-8">
+
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+
+
+
+
+    <title>Vue image Preview</title>
+
+
+</head>
+
+
+<style>
+
+
+
+
+    body{
+
+
+      font-family: Arial, Helvetica, sans-serif;
+
+
+
+
+    }
+
+
+
+
+    main{
+
+
+        width: 100%;
+
+
+        margin: auto;
+
+
+        text-align: center;
+
+
+
+
+    }
+
+
+
+
+    .container-flex{
+
+
+        display: flex;
+
+
+        flex-direction: column;
+
+
+        align-items: center;
+
+
+
+
+    }
+
+
+
+
+    img{
+
+
+        width: 400px;
+
+
+        height: 500px;
+
+
+        margin-bottom: 20px;
+
+
+        object-fit: cover;
+
+
+    }
+
+
+
+
+</style>
+
+
+<body>
+
+
+
+
+ <main id="app">
+
+
+
+
+   <h1>Previzualize Image</h1>
+
+
+
+
+   <div class="container-flex">
+
+
+
+
+       <img :src="image"  alt="">
+
+
+
+
+      <input type="file" @change ="fileChange" >
+
+
+
+
+   </div>
+
+
+
+
+ </main>
+
+
+
+
+ <script>
+
+
+
+
+var app = new Vue({
+
+
+  el: '#app',
+
+
+  data: {
+
+
+    image: "https://www.gorilla-cannabis-seeds.co.uk/images/product_image_not_found.gif"
+
+
+  },
+
+
+  methods: {
+
+
+    fileChange(e){
+
+
+        const file = e.target.files[0]
+
+
+        this.image = URL.createObjectURL(file)
+
+
+    }
+
+
+  },
+
+
+})
+
+
+ </script>
+
+
+</body>
+
+
+</html>

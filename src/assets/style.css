@@ -408,7 +408,7 @@ select:focus {
 }
 
 .single-product {
-    margin-top: 80px;
+    margin-top: -20px;
 }
 
 .single-product .my-col-2 img {

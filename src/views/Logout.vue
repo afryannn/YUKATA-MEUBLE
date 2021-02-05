@@ -8,6 +8,7 @@ methods:{
        localStorage.removeItem('user-id')
                localStorage.removeItem('username')
                localStorage.removeItem('email')
+               localStorage.removeItem('user-id')
                localStorage.removeItem('role_user')
                 window.location.href = `http://localhost:8080/`;
     }
