@@ -1,5 +1,11 @@
 <template>
   <v-container grid-list-xs>
+    <v-overlay :value="loading" :opacity="0.95">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="pd">
       <v-card class="mx-auto" max-width="600">
         <v-app-bar color="#4EB883"> </v-app-bar>
@@ -29,10 +35,10 @@
                 <p v-show="alertUsername" style="color: red; font-size: 13px">
                   * Mohon Isi username!
                 </p>
-                 <p v-show="this.eUsername" style="color: red; font-size: 13px">
+                <p v-show="this.eUsername" style="color: red; font-size: 13px">
                   * Username Tidak Ditemukan!
                 </p>
-                 <p v-show="this.ePassword" style="color: red; font-size: 13px">
+                <p v-show="this.ePassword" style="color: red; font-size: 13px">
                   * Password Salah!
                 </p>
                 <v-text-field
@@ -69,23 +75,25 @@ export default {
       password: "",
       alertUsername: false,
       alertPassword: false,
-      eUsername:false,
-      ePassword:false,
+      eUsername: false,
+      ePassword: false,
       result: [],
+      loading: false,
     };
   },
   methods: {
     async Masuk() {
+      this.loading = true;
       if (!this.username) {
         this.alertUsername = true;
-        this.eUsername = false
-        this.ePassword = false
+        this.eUsername = false;
+        this.ePassword = false;
       } else {
         this.alertUsername = false;
         if (!this.password) {
           this.alertPassword = true;
-          this.eUsername = false
-          this.ePassword = false
+          this.eUsername = false;
+          this.ePassword = false;
         } else {
           this.alertPassword = false;
           var bodyFormData = new FormData();
@@ -98,16 +106,17 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
             .then((response) => {
+              this.loading = false;
               var message = response.data.MESSAGE;
               if (message == "ERR-USERNOTFOUND") {
-                this.eUsername = true
-                this.alertUsername = false
-                this.alertPassword = false
+                this.eUsername = true;
+                this.alertUsername = false;
+                this.alertPassword = false;
               } else if (message == "ERR-PASSWRONG") {
-                this.eUsername = false
-                this.ePassword = true
-                this.alertUsername = false
-                this.alertPassword = false
+                this.eUsername = false;
+                this.ePassword = true;
+                this.alertUsername = false;
+                this.alertPassword = false;
               } else {
                 var role = response.data.DATA.role_user;
                 localStorage.setItem("user-id", response.data.DATA.id);

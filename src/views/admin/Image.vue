@@ -64,17 +64,13 @@
         </div>
       </header>
       <main>
-        <App/>
+        
       </main>
     </div>
   </div>
 </template>
 
 <script>
-import App from "../../components/admin/NewProduk";
-//import App from "../../components/admin/CompleteProduk";
-
-import axios from 'axios';
 
 export default {
    components: {
@@ -82,48 +78,14 @@ export default {
    },
    data(){
      return{
-       compMain:false,
-       compForm:false,
-       btnStore:false
+     
      }
    },
   methods: {
-    cek(){
-      var isForm = this.showform
-      if(isForm == false){
-          this.showform = true
-      }else if(isForm == true){
-        this.showform = false
-      }
-    },
-    Logout() {
-      localStorage.removeItem("user-id");
-      localStorage.removeItem("username");
-      localStorage.removeItem("email");
-      localStorage.removeItem("role_user");
-      this.$router.replace({ name: "Home" });
-    },
+   
   },
   mounted(){
-     var bodyFormData = new FormData();
-      bodyFormData.append("user_id",localStorage.getItem("user-id"));
-    axios({
-        method: "post",
-        url:`${this.$api}check_store`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          if(response.data.MESSAGE == "ERROR"){
-            this.compMain = true
-          }else{
-            this.compMain = false
-            this.btnStore = true
-          }
-        })
-        .catch(function () {
-        
-        });
+
   }
 };
 </script>

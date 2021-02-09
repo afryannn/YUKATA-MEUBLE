@@ -1,31 +1,32 @@
 <template>
   <div>
-    <!-- <v-text-field
+    <v-text-field
       class="text-green"
-      v-model="valProductName"
+      v-model="valProductDesc"
       label="Deskripsi"
     ></v-text-field>
-    <p v-show="eProduct" style="color: red; font-size: 13px">
-      * Nama Produk Tidac Boleh Kosong!
+    <p v-show="eDesc" style="color: red; font-size: 13px">
+      * Deskripsi Tidak Boleh Kosong!!
     </p>
     <v-text-field
       class="text-green"
-      v-model="valProductName"
+      v-model="valProductPrice"
       label="Harga"
+      type="number"
     ></v-text-field>
-    <p v-show="eProduct" style="color: red; font-size: 13px">
-      * Nama Produk Tidac Boleh Kosong!
+    <p v-show="ePrice" style="color: red; font-size: 13px">
+      * Harga Tidak Boleh Kosong!!
     </p>
     <v-text-field
       class="text-green"
-      v-model="valProductName"
+      v-model="valProductStock"
       label="Stok"
-    ></v-text-field> -->
-
+    ></v-text-field>
+    <p v-show="eStock" style="color: red; font-size: 13px">* Stok Kosong!</p>
     <p style="margin-top: 10px">Gambar 1</p>
     <div class="card-img-p">
       <div class="row">
-        <div class="col-5" style="padding: 0 !important">
+        <div class="col-6" style="padding: 0 !important">
           <img :src="prevImg1" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
@@ -43,13 +44,17 @@
         </div>
       </div>
     </div>
-    <p v-show="eImg.img1" style="color: red; font-size: 13px">
-      * Gambar 1 Tidak Boleh Kosong
+    <p v-show="emptyImg1" style="color: red; font-size: 13px">
+      * Gambar 1 Tidak Boleh Kosong!!
     </p>
+    <p v-show="eImg1" style="color: red; font-size: 13px">
+      * Gambar Harus Berformat PNG,JPG,JPEG!!
+    </p>
+
     <p style="margin-top: 10px">Gambar 2</p>
     <div class="card-img-p">
       <div class="row">
-        <div class="col-5" style="padding: 0 !important">
+        <div class="col-6" style="padding: 0 !important">
           <img :src="prevImg1" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
@@ -67,11 +72,14 @@
         </div>
       </div>
     </div>
+    <p v-show="eImg2" style="color: red; font-size: 13px">
+      * Gambar Harus Berformat PNG,JPG,JPEG!!
+    </p>
 
     <p style="margin-top: 10px">Gambar 3</p>
     <div class="card-img-p">
       <div class="row">
-        <div class="col-5" style="padding: 0 !important">
+        <div class="col-6" style="padding: 0 !important">
           <img :src="prevImg1" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
@@ -80,7 +88,7 @@
             <input
               type="file"
               name="upload"
-              @change="onFileSelected2"
+              @change="onFileSelected3"
               id="upload"
               class="upload-box"
               placeholder="Upload File"
@@ -89,11 +97,14 @@
         </div>
       </div>
     </div>
+    <p v-show="eImg3" style="color: red; font-size: 13px">
+      * Gambar Harus Berformat PNG,JPG,JPEG!!
+    </p>
 
     <p style="margin-top: 10px">Gambar 4</p>
     <div class="card-img-p">
       <div class="row">
-        <div class="col-5" style="padding: 0 !important">
+        <div class="col-6" style="padding: 0 !important">
           <img :src="prevImg1" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
@@ -102,7 +113,7 @@
             <input
               type="file"
               name="upload"
-              @change="onFileSelected2"
+              @change="onFileSelected4"
               id="upload"
               class="upload-box"
               placeholder="Upload File"
@@ -111,11 +122,14 @@
         </div>
       </div>
     </div>
+    <p v-show="eImg4" style="color: red; font-size: 13px">
+      * Gambar Harus Berformat PNG,JPG,JPEG!!
+    </p>
 
     <p style="margin-top: 10px">Gambar 5</p>
     <div class="card-img-p">
       <div class="row">
-        <div class="col-5" style="padding: 0 !important">
+        <div class="col-6" style="padding: 0 !important">
           <img :src="prevImg1" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
@@ -124,7 +138,7 @@
             <input
               type="file"
               name="upload"
-              @change="onFileSelected2"
+              @change="onFileSelected5"
               id="upload"
               class="upload-box"
               placeholder="Upload File"
@@ -133,20 +147,18 @@
         </div>
       </div>
     </div>
-    <!-- <p v-show="eProduct" style="color: red; font-size: 13px">
-      * Nama Produk Tidac Boleh Kosong!
+    <p v-show="eImg5" style="color: red; font-size: 13px">
+      * Gambar Harus Berformat PNG,JPG,JPEG!!
     </p>
-    <p v-show="eSelec" style="color: red; font-size: 13px">
-      * Kategori Kosong!
-    </p> -->
-    <v-btn class="mr-4 btn-green" @click="go()" style="margin-top: 20px"
+
+    <v-btn class="mr-4 btn-green" @click="Save()" style="margin-top: 20px"
       >Simpan</v-btn
     >
   </div>
 </template>
 
 <script>
-//import axios from "axios";
+import axios from "axios";
 
 export default {
   data() {
@@ -154,128 +166,177 @@ export default {
       valDeskripsi: "",
       valHarga: "",
       valStock: "",
-      valImg: [
-        {Img1: "" },
-        {Img2: "" },
-        {Img3: "" },
-        {Img4: "" },
-        {Img5: "" },
-      ],
-      eImg: [
-        { eImg1: false },
-        { eImg2: false },
-        { eImg3: false },
-        { eImg4: false },
-        { eImg5: false },
-      ],
-      allow:[
-        {ifAllow1:false},
-        {ifAllow2:false},
-        {ifAllow3:false},
-        {ifAllow4:false},
-        {ifAllow5:false},
-      ],
+      eImg1: false,
+      eImg2: false,
+      eImg3: false,
+      eImg4: false,
+      eImg5: false,
+      img1: null,
+      img2: null,
+      img3: null,
+      img4: null,
+      img5: null,
+      eDesc: false,
+      ePrice: false,
+      eStock: false,
+      valProductDesc: "",
+      valProductPrice: "",
+      valProductStock: "",
       prevImg1: "https://picsum.photos/id/11/500/300",
+      prevImg2: "https://picsum.photos/id/11/500/300",
+      prevImg3: "https://picsum.photos/id/11/500/300",
+      prevImg4: "https://picsum.photos/id/11/500/300",
+      prevImg5: "https://picsum.photos/id/11/500/300",
       selectedFile: null,
-      ifAllow: false,
+      ifAllow: true,
+      emptyImg1: false,
+      ifEmpty: true,
     };
   },
   methods: {
-    go() {
-      if (!this.valProductName) {
-        this.eProduct = true;
-      } else {
-        if (!this.valSelec) {
-          this.eProduct = false;
-          this.eSelec = true;
-        } else {
-          this.eSelec = false;
-        }
-      }
-    },
     //GET FILE CODE
     onFileSelected(event) {
       let image = event.target.files[0];
-      if (image["type"] == "image/png") {
+      if (
+        image["type"] === "image/jpeg" ||
+        image["type"] == "image/jpg" ||
+        image["type"] == "image/png"
+      ) {
+        this.img1 = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
           this.prevImg1 = e.target.result;
-          this.allow.ifAllow1 = true;
+          this.eImg1 = false;
+          this.ifEmpty = false;
         };
       } else {
-        this.allow.ifAllow1 = false;
+        this.eImg1 = true;
+        (this.ifAllow = false),
+          (this.ifEmpty = false),
+          (this.emptyImg1 = false);
       }
     },
     onFileSelected2(event) {
       let image = event.target.files[0];
-      if (image["type"] == "image/png") {
+      if (
+        image["type"] === "image/jpeg" ||
+        image["type"] == "image/jpg" ||
+        image["type"] == "image/png"
+      ) {
+        this.img2 = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prevImg1 = e.target.result;
-          this.ifAllow = false;
+          this.prevImg2 = e.target.result;
+          this.eImg2 = false;
         };
       } else {
-         this.allow.ifAllow2 = false;
+        this.eImg2 = true;
       }
     },
     onFileSelected3(event) {
       let image = event.target.files[0];
-      if (image["type"] == "image/png") {
+      if (
+        image["type"] === "image/jpeg" ||
+        image["type"] == "image/jpg" ||
+        image["type"] == "image/png"
+      ) {
+        this.img3 = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prevImg1 = e.target.result;
-          this.ifAllow = true;
+          this.prevImg3 = e.target.result;
+          this.eImg3 = false;
         };
       } else {
-        console.log("G");
+        this.eImg3 = true;
       }
     },
     onFileSelected4(event) {
       let image = event.target.files[0];
-      if (image["type"] == "image/png") {
+      if (
+        image["type"] === "image/jpeg" ||
+        image["type"] == "image/jpg" ||
+        image["type"] == "image/png"
+      ) {
+        this.img4 = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prevImg1 = e.target.result;
-          this.ifAllow = true;
+          this.prevImg4 = e.target.result;
+          this.eImg4 = false;
         };
       } else {
-        console.log("G");
+        this.eImg4 = true;
       }
     },
+
     onFileSelected5(event) {
       let image = event.target.files[0];
-      if (image["type"] == "image/png") {
+      if (
+        image["type"] === "image/jpeg" ||
+        image["type"] == "image/jpg" ||
+        image["type"] == "image/png"
+      ) {
+        this.img5 = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prevImg1 = e.target.result;
-          this.ifAllow = true;
+          this.prevImg5 = e.target.result;
+          this.eImg5 = false;
         };
       } else {
-        console.log("G");
+        this.eImg5 = true;
       }
     },
     //END
-    save() {
-      // var bodyFormData = new FormData();
-      // bodyFormData.append("PRODUCT_KEY", localStorage.getItem("product-key"));
-      // bodyFormData.append("image", this.selectedFile, this.selectedFile.namei);
-      // axios({
-      //   method: "post",
-      //   url: `${this.$api}seller_transaksi`,
-      //   data: bodyFormData,
-      //   headers: { "Content-Type": "multipart/form-data" },
-      // })
-      //   .then((response) => {
-      //     this.setTransaction(response.data.DATA);
-      //   })
-      //   .catch(function (response) {
-      //     console.log(response);
-      //   });
+    async Save() {
+      if (this.ifEmpty == true) {
+        console.log("Kosong");
+        this.emptyImg1 = true;
+      } else {
+        this.emptyImg1 = false;
+        if (
+          this.eImg1 == true ||
+          this.eImg2 == true ||
+          this.eImg3 == true ||
+          this.eImg4 == true ||
+          this.eImg5 == true ||
+          this.valProductDesc == "" ||
+          this.valProductStock == "" ||
+          this.valProductPrice == ""
+        ) {
+          console.log("Err");
+        } else {
+          var bodyFormData = new FormData();
+          bodyFormData.append(
+            "key_product",
+            localStorage.getItem("product-key")
+          );
+          bodyFormData.append("deskripsi", this.valProductDesc);
+          bodyFormData.append("harga", this.valProductPrice);
+          bodyFormData.append("stok", this.valProductStock);
+          bodyFormData.append("img1", this.img1);
+          bodyFormData.append("img2", this.img2);
+          bodyFormData.append("img3", this.img3);
+          bodyFormData.append("img4", this.img4);
+          bodyFormData.append("img5", this.img5);
+          await axios({
+            method: "post",
+            url: `${this.$api}complete_produk`,
+            data: bodyFormData,
+            headers: { "Content-Type": "application/x-www-form-urlencoded" },
+          }).then((res) => {
+            console.log(res.data)
+            localStorage.removeItem("product-key");
+            this.$router.replace({ name: "Dashboard" });
+          })
+          .catch(function (response) {
+            console.log(response);
+          });
+        }
+      }
     },
   },
 };

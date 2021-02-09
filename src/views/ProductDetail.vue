@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-overlay :value="loading" :opacity="0.9">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -115,6 +121,7 @@ export default {
       address: "",
       alertAddress: false,
       datas: [],
+      loading: false,
     };
   },
   methods: {
@@ -123,20 +130,20 @@ export default {
     },
     async Buy() {
       var i = 0;
-      var description = this.description
-      let dscVal = '';
-      if(description == ''){
-        dscVal = 'Null';
-      }else{
-        dscVal = this.description
+      var description = this.description;
+      let dscVal = "";
+      if (description == "") {
+        dscVal = "Null";
+      } else {
+        dscVal = this.description;
       }
       for (i = 0; i < this.datas.length; i++) {
-         var store_id = this.datas[i].store_id;
-         var store_name = this.datas[i].store_name;
-         var product_name = this.datas[i].product_name;
-         var product_price = this.datas[i].product_price;
-         var address = this.datas[i].address;
-         var img1 = this.datas[i].img1;
+        var store_id = this.datas[i].store_id;
+        var store_name = this.datas[i].store_name;
+        var product_name = this.datas[i].product_name;
+        var product_price = this.datas[i].product_price;
+        var address = this.datas[i].address;
+        var img1 = this.datas[i].img1;
       }
       if (!this.address) {
         this.alertAddress = true;
@@ -153,18 +160,23 @@ export default {
         bodyFormData.append("address_seller", address);
         bodyFormData.append("address_customer", address);
 
-        await axios({
-          method: "post",
-          url: `${this.$api}buy`,
-          data: bodyFormData,
-          headers: { "Content-Type": "multipart/form-data" },
-        })
-          .then(() => {
-            console.log("SUCCESS");
+        if (localStorage.getItem("role_user") == "SELLER") {
+          this.$router.replace({ name: "Dashboard" });
+        } else {
+          this.loading = true;
+          await axios({
+            method: "post",
+            url: `${this.$api}buy`,
+            data: bodyFormData,
+            headers: { "Content-Type": "multipart/form-data" },
           })
-          .catch(function (response) {
-            console.log(response);
-          });
+            .then(() => {
+              this.loading = false;
+            })
+            .catch(function (response) {
+              console.log(response);
+            });
+        }
       }
     },
   },
@@ -172,9 +184,7 @@ export default {
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     axios
-      .get(
-        `${this.$api}Detail/` + this.$route.params.product_key
-      )
+      .get(`${this.$api}Detail/` + this.$route.params.product_key)
       .then((response) => this.setProduct(response.data))
       .catch((error) => console.log("Fail : ", error));
   },

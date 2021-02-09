@@ -8,7 +8,9 @@ import Product from '../views/Product.vue'
 import Search from '../views/Search.vue'
 import Logout from '../views/Logout.vue'
 import ProductDetail from '../views/ProductDetail.vue'
+import EditProduk from '../views/admin/EditProduk.vue'
 import Dashboard from '../views/admin/Dashboard.vue'
+import Delete from '../views/admin/Remove.vue'
 import Newproduk from '../views/admin/NewProduk.vue'
 
 Vue.use(VueRouter)
@@ -50,14 +52,27 @@ const routes = [
         component: Register
     },
     {
+        path: '/Remove',
+        name: 'Remove',
+        component: Delete
+    },
+    {
         path: '/ProdukRelease',
         name: 'Newproduk',
-        component: Newproduk
+        component: Newproduk,
+        beforeEnter: guardMyroute,
+    },
+    {
+        path: '/ProdukRepair',
+        name: 'EditProduk',
+        component: EditProduk,
+        beforeEnter: guardMyroute,
     },
     {
         path: '/Produk/:product_key',
         name: 'Detail',
-        component: ProductDetail
+        component: ProductDetail,
+        beforeEnter: guardMyroute,
     },
     {
         path: '/Cari',

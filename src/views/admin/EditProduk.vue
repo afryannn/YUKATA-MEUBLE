@@ -1,6 +1,6 @@
 <template>
-  <div>
-    <NavBar/>
+<div>
+  <NavBar/>
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
@@ -14,23 +14,22 @@
         </div>
       </header>
       <main>
-        <NewProduk v-show="this.compForm"></NewProduk>
-        <Main v-show="this.compMain"></Main>
-        <button class="btn-create-store" v-show="this.btnStore">
-           <p style="margin:auto; color:white !important;"><span>+ </span><b>Buat Toko</b></p>
-        </button>
+        <App/>
       </main>
     </div>
   </div>
 </template>
 
 <script>
-import Main from "../../components/admin/Parent";
 import NavBar from "../../components/admin/NavBar";
-import axios from 'axios';
+import App from "../../components/admin/EditProduk";
+//import App from "../../components/admin/CompleteProduk";
+
+//`7import axios from 'axios';
+
 export default {
    components: {
-     Main,
+     App,
      NavBar
    },
    data(){
@@ -49,7 +48,6 @@ export default {
         this.showform = false
       }
     },
-
     Logout() {
       localStorage.removeItem("user-id");
       localStorage.removeItem("username");
@@ -59,25 +57,25 @@ export default {
     },
   },
   mounted(){
-     var bodyFormData = new FormData();
-      bodyFormData.append("user_id",localStorage.getItem("user-id"));
-    axios({
-        method: "post",
-        url:`${this.$api}check_store`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          if(response.data.MESSAGE == "ERROR"){
-            this.compMain = true
-          }else{
-            this.compMain = false
-            this.btnStore = true
-          }
-        })
-        .catch(function () {
+    //  var bodyFormData = new FormData();
+    //   bodyFormData.append("user_id",localStorage.getItem("user-id"));
+    // axios({
+    //     method: "post",
+    //     url:`${this.$api}check_store`,
+    //     data: bodyFormData,
+    //     headers: { "Content-Type": "multipart/form-data" },
+    //   })
+    //     .then((response) => {
+    //       if(response.data.MESSAGE == "ERROR"){
+    //         this.compMain = true
+    //       }else{
+    //         this.compMain = false
+    //         this.btnStore = true
+    //       }
+    //     })
+    //     .catch(function () {
         
-        });
+    //     });
   }
 };
 </script>

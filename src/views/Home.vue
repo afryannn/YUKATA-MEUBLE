@@ -1,5 +1,6 @@
 <template>
   <div>
+
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -92,6 +93,7 @@ export default {
       id: "",
       username: "",
       role: "",
+      loading:false
       // Nav:false
     };
   },
