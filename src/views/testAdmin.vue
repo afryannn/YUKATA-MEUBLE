@@ -1,6 +1,20 @@
 <template>
   <div>
-    <NavBar/>
+    <!--------------------NAVBAR---------------------->
+    <input type="checkbox" id="sidebar-toggle" />
+    <div class="fr-sidebar">
+      <div class="fr-sidebar-header">
+        <h3 class="fr-brand">
+          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+        </h3>
+        <label for="sidebar-toggle" class="ti-menu-alt"></label>
+      </div>
+      <div class="fr-sidebar-menu">
+        <Nav />
+      </div>
+    </div>
+    <!--------------------END NAVBAR---------------------->
+
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
@@ -13,26 +27,28 @@
           <div></div>
         </div>
       </header>
+
+      <!--------------------START CONTENT---------------------->
       <main>
-        <!-- <NewProduk v-show="this.compForm"></NewProduk>
         <Main v-show="this.compMain"></Main>
         <button class="btn-create-store" v-show="this.btnStore">
            <p style="margin:auto; color:white !important;"><span>+ </span><b>Buat Toko</b></p>
-        </button> -->
+        </button>
       </main>
+
+      <!--------------------END CONTENT---------------------->
     </div>
   </div>
 </template>
-
 <script>
-//import Main from "../../components/admin/Parent";
-import NavBar from "../../components/admin/NavBar1";
-import axios from 'axios';
+import axios from 'axios'
+import Main from "../components/admin/component/Dashboard";
+import Nav from "../components/admin/component/Nav";
 export default {
-   components: {
-    //  Main,
-      NavBar
-   },
+  components: {
+    Main,
+    Nav,
+  },
    data(){
      return{
        compMain:false,

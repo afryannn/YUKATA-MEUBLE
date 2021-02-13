@@ -22,7 +22,7 @@
     left: 0;
     top: 0;
     z-index: 100;
-    background: var(--main-color);
+    background: #28df99;
     color:#3f3f3f; 
     overflow-y: auto;
     transition: width 500ms;
@@ -55,7 +55,6 @@
 
 .t-spn{
     color: white;
-    font-size: 20px;
 }
 .fr-sidebar a span:first-child{
     padding-left:.6rem; 
@@ -117,7 +116,7 @@ header{
 
 main{
     margin-top: 60px;
-    background: #f9fffb;
+    background: #eff7f3;
     min-height: 90vh;
     padding:1rem 3rem;
 }
@@ -135,7 +134,7 @@ main{
 .fr-card-single{
         background: #fff;
         border-radius: 7px;
-        box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2);
+        box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
 }
 
 .fr-card-body{
@@ -183,9 +182,8 @@ main{
     grid-column-gap:1.5rem;   
 }
 
-.fr-activity-card,
-
-.fr-bday-card{
+.fr-activity-card
+{
     background: #fff;
     border-radius: 7px;
 }
@@ -407,6 +405,4 @@ th,td{
 }
 .table-responsive{
     overflow-x: auto;
-    overflow-y: scroll;
-    height:300px;
 }

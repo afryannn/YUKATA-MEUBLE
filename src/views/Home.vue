@@ -79,6 +79,7 @@
 </template>
 <script>
 import NewProduk from "../components/home/NewProduct.vue";
+
 import ListProduk from "../components/home/ListProduct.vue";
 import Footer from "../components/Footer.vue";
 

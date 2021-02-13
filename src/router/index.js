@@ -2,6 +2,8 @@ import Vue from 'vue'
 //import Vuex from '../store'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import Test from '../views/testAdmin.vue'
+//import testing from '../views/testAdmin.vue'
 import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
 import Product from '../views/Product.vue'
@@ -9,8 +11,8 @@ import Search from '../views/Search.vue'
 import Logout from '../views/Logout.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import EditProduk from '../views/admin/EditProduk.vue'
-import Dashboard from '../views/admin/Dashboard.vue'
-import Delete from '../views/admin/Remove.vue'
+//import Dashboard from '../views/admin/Dashboard.vue'
+import Delete from '../views/admin/DestroyProduk.vue'
 import Newproduk from '../views/admin/NewProduk.vue'
 
 Vue.use(VueRouter)
@@ -35,7 +37,13 @@ function guardMyroute(to, from, next) {
     }
 }
 
+
 const routes = [
+    {
+        path: '/t',
+        name: 'test',
+        component: Test
+    },
     {
         path: '/',
         name: 'Home',
@@ -72,7 +80,6 @@ const routes = [
         path: '/Produk/:product_key',
         name: 'Detail',
         component: ProductDetail,
-        beforeEnter: guardMyroute,
     },
     {
         path: '/Cari',
@@ -92,8 +99,8 @@ const routes = [
     {
         path: '/Dashboard',
         name: 'Dashboard',
-        component: Dashboard,
-        beforeEnter: guardMyroute,
+        component: Test,
+        //beforeEnter: guardMyroute,
     },
 ]
 

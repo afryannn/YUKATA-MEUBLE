@@ -3,7 +3,7 @@
     <h2 class="title">Daftar Produk</h2>
     <div class="my-small-container">
       <div class="my-row">
-        <div class="my-col-4" v-for="data in datas" :key="data.id">
+        <div class="my-col-4 d-flex justify-content-center" v-for="data in datas" :key="data.id">
           <div
             class="card"
             style="width: 15rem; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2)"

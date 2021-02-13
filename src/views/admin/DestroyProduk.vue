@@ -1,6 +1,20 @@
 <template>
   <div>
-      <NavBar/>
+    <!--------------------NAVBAR---------------------->
+    <input type="checkbox" id="sidebar-toggle" />
+    <div class="fr-sidebar">
+      <div class="fr-sidebar-header">
+        <h3 class="fr-brand">
+          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+        </h3>
+        <label for="sidebar-toggle" class="ti-menu-alt"></label>
+      </div>
+      <div class="fr-sidebar-menu">
+        <Nav />
+      </div>
+    </div>
+    <!--------------------END NAVBAR---------------------->
+
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
@@ -13,8 +27,10 @@
           <div></div>
         </div>
       </header>
+
+      <!--------------------START CONTENT---------------------->
       <main>
-        <div class="row">
+          <div class="row">
           <div v-for="e in items" v-bind:key="e.id">
             <div class="card" style="width: 13rem; margin: 10px">
               <img
@@ -44,19 +60,20 @@
           </div>
         </div>
       </main>
+
+      <!--------------------END CONTENT---------------------->
     </div>
   </div>
 </template>
-
 <script>
-import NavBar from "../../components/admin/component/Nav";
-import axios from "axios";
-
+import Nav from "../../components/admin/component/Nav";
+import axios from 'axios'
 export default {
   components: {
-      NavBar
+    Nav,
+    
   },
-  data() {
+    data() {
     return {
       items: [],
     };
@@ -93,3 +110,5 @@ export default {
   },
 };
 </script>
+<style scoped>
+</style>

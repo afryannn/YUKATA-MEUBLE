@@ -1,12 +1,45 @@
 <template>
   <div>
-    <h2 class="fr-dash-title" style="color: #28df99 !important">Info Admin</h2>
     <div class="fr-dash-cards">
-      <jumlahProduk />
-      <Transaksi />
-      <Saldo />
-    </div>
+      <div class="fr-card-single">
+        <div class="fr-card-body">
+          <span class="ti-briefcase"></span>
+          <div>
+            <h5>Total Saldo</h5>
+            <h4>Rp.500K</h4>
+          </div>
+        </div>
+        <div class="fr-card-footer">
+           
+        </div>
+      </div>
 
+      <div class="fr-card-single">
+        <div class="fr-card-body">
+          <span class="ti-briefcase"></span>
+          <div>
+            <h5>Total Saldo</h5>
+            <h4>Rp.500K</h4>
+          </div>
+        </div>
+        <div class="fr-card-footer">
+          <!-- <a href="">View All</a> -->
+        </div>
+      </div>
+
+      <div class="fr-card-single">
+        <div class="fr-card-body">
+          <span class="ti-briefcase"></span>
+          <div>
+            <h5>Total Saldo</h5>
+            <h4>Rp.500K</h4>
+          </div>
+        </div>
+        <div class="fr-card-footer">
+          <!-- <a href="">View All</a> -->
+        </div>
+      </div>
+    </div>
     <section class="fr-recent">
       <div class="fr-activity-grid">
         <div
@@ -26,9 +59,10 @@
                   <th>Status</th>
                 </tr>
               </thead>
-              <tbody v-for="data in transactions" v-bind:key="data.id">
+              <tbody>
                 <tr>
-                  <td>{{ data.visitor_name }}</td>
+                  <td>dclmkn</td>
+                  <!-- <td>{{ data.visitor_name }}</td>
                   <td>{{ data.product_name }}</td>
                   <td>{{ data.description }}</td>
                   <td>{{ data.address_customer }}</td>
@@ -38,7 +72,7 @@
                   </td>
                   <td v-else>
                     <span class="badge success"> Tidak </span>
-                  </td>
+                  </td> -->
                 </tr>
               </tbody>
             </table>
@@ -47,12 +81,14 @@
 
         <div class="fr-summary-card">
           <router-link to="/ProdukRelease">
-          <Button
-            class="fr-btn-add-product"
-            style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2)"
-          >
-            <p class="p-button-add" @click="formNewProduk()"><span>+ </span>Produk Baru</p>
-          </Button>
+            <Button
+              class="fr-btn-add-product"
+              style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2)"
+            >
+              <p class="p-button-add" @click="formNewProduk()">
+                <span>+ </span>Produk Baru
+              </p>
+            </Button>
           </router-link>
           <Button
             class="fr-btn-delete btn-danger"
@@ -67,18 +103,9 @@
   </div>
 </template>
 <script>
-import jumlahProduk from "../../components/admin/JumlahProduk";
-import Saldo from "../../components/admin/Saldo";
-import Transaksi from "../../components/admin//TotalTransaksi";
-//import NewProduk from "../admin/NewProduk";
 import axios from "axios";
-
 export default {
-  components: {
-    jumlahProduk,
-    Transaksi,
-    Saldo,
-  },
+  components: {},
   data() {
     return {
       transactions: [],
@@ -88,35 +115,38 @@ export default {
     setTransaction(data) {
       this.transactions = data;
     },
-    formNewProduk(){
-      
-    },
+    formNewProduk() {},
     Logout() {
       localStorage.removeItem("user-id");
       localStorage.removeItem("username");
       localStorage.removeItem("email");
       localStorage.removeItem("role_user");
-      this.$router.replace({name:"Login"});
+      this.$router.replace({ name: "Login" });
     },
-  },
-  mounted() {
-    var bodyFormData = new FormData();
-    bodyFormData.append("id", "1");
-    axios({
-      method: "post",
-      url: `${this.$api}seller_transaksi`,
-      data: bodyFormData,
-      headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((response) => {
-        this.setTransaction(response.data.DATA);
+    mounted() {
+      
+      console.log(localStorage.removeItem("username"));
+    
+      var bodyFormData = new FormData();
+      bodyFormData.append("id", "2");
+      axios({
+        method: "post",
+        url: `${this.$api}seller_transaksi`,
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
       })
-      .catch(function (response) {
-        console.log(response);
-      });
+        .then((response) => {
+          this.setTransaction(response.data.DATA);
+          console.log("KHJIHN");
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
+    },
   },
 };
 </script>
+
 <style scoped>
 .fr-btn-add-product {
   width: 10rem;

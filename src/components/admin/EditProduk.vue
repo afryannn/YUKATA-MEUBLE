@@ -25,11 +25,11 @@
           </router-link>
         </td>
         <td>
-          <router-link to="/Login">
-            {{ e.product_name }}
-          </router-link>
+          <input type="text" :value="e.product_name">
         </td>
-        <td><input type="text" name="names" v-model="m.pr[e.product_price]"></td>
+        <td>
+          <input type="text" name="names" v-model="e.description">
+        </td>
         <td>{{ e.stock }}</td>
         <td>$320,800</td>
         <td>
@@ -49,8 +49,7 @@ export default {
       items: [],
       m:{
         pr:[]
-      }
-
+      },
     };
   },
   methods: {
@@ -58,7 +57,7 @@ export default {
       this.Items = data;
     },
     Pe(){
-      console.log(this.m.pr)
+     
     }
   },
   mounted() {

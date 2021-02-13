@@ -12,7 +12,8 @@ import vSelect from 'vue-select'
 import store from './store'
 import './assets/main.css'
 import './assets/style.css'
-import './assets/admin.css'
+import './assets/adminND.css'
+//import './assets/admin2.css'
 import './assets/style.js'
 import vuetify from './plugins/vuetify';
 
