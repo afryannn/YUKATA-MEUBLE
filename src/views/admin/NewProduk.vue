@@ -4,52 +4,15 @@
     <div class="fr-sidebar">
       <div class="fr-sidebar-header">
         <h3 class="fr-brand">
-          <span class="ti-unlink"></span>
-          <span class="t-spn">ADMIN SELLER</span>
+          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
         </h3>
         <label for="sidebar-toggle" class="ti-menu-alt"></label>
       </div>
       <div class="fr-sidebar-menu">
-        <ul>
-          <li>
-            <a href="/">
-              <span class="fr-ti-home"></span>
-              <span>Home</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <span class="fr-ti-face-smile"></span>
-              <span>Produk</span>
-            </a>
-          </li>
-          <li>
-            <a href="/Dashboard">
-              <span class="fr-ti-agenda"></span>
-              <span>Dashboard</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <span class="fr-ti-clipboard"></span>
-              <span>Edit Produk</span>
-            </a>
-          </li>
-          <li>
-            <a href="">
-              <span class="fr-ti-folder"></span>
-              <span>Hapus Produk</span>
-            </a>
-          </li>
-          <li>
-            <button @click="cek()">
-              <span class="fr-ti-time"></span>
-              <span>Transaksi</span>
-            </button>
-          </li>
-        </ul>
+        <Nav />
       </div>
     </div>
+    <!--------------------END NAVBAR---------------------->
 
     <div class="fr-main-content">
       <header>
@@ -62,6 +25,7 @@
           <span class="ti-comment"></span>
           <div></div>
         </div>
+    
       </header>
       <main>
         <App/>
@@ -75,13 +39,15 @@
 
 <script>
 import App from "../../components/admin/NewProduk";
+import Nav from "../../components/admin/component/Nav";
 //import App from "../../components/admin/CompleteProduk";
 
 import axios from 'axios';
 
 export default {
    components: {
-     App
+     App,
+     Nav
    },
    data(){
      return{

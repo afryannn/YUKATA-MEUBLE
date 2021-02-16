@@ -124,6 +124,7 @@ export default {
                 localStorage.setItem("email", response.data.DATA.email);
                 localStorage.setItem("role_user", role);
                 if (role == "SELLER") {
+                  console.log(localStorage.getItem("user-id"));
                   this.$router.replace({ name: "Dashboard" });
                 } else if (role == "VISITOR") {
                   this.$store.commit("setAuthentication", true);

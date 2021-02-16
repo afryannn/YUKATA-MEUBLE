@@ -60,19 +60,18 @@
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <td>dclmkn</td>
-                  <!-- <td>{{ data.visitor_name }}</td>
+                <tr v-for="data in transactions" v-bind:key="data.id">
+                  <td>{{ data.visitor_name }}</td>
                   <td>{{ data.product_name }}</td>
                   <td>{{ data.description }}</td>
                   <td>{{ data.address_customer }}</td>
                   <td>{{ data.product_price }}</td>
                   <td v-if="data.status == 'DI PROSES'">
-                    <span class="badge success"> Success </span>
+                    <span class="badge success"> Di PROSES </span>
                   </td>
                   <td v-else>
-                    <span class="badge success"> Tidak </span>
-                  </td> -->
+                    <span class="badge success"> SELESAI </span>
+                  </td>
                 </tr>
               </tbody>
             </table>
@@ -123,12 +122,12 @@ export default {
       localStorage.removeItem("role_user");
       this.$router.replace({ name: "Login" });
     },
-    mounted() {
-      
-      console.log(localStorage.removeItem("username"));
-    
+  },
+  mounted() {
+      console.log(localStorage.getItem('storeId'));
+      var id = localStorage.getItem('user-id');
       var bodyFormData = new FormData();
-      bodyFormData.append("id", "2");
+      bodyFormData.append("id",id);
       axios({
         method: "post",
         url: `${this.$api}seller_transaksi`,
@@ -137,13 +136,12 @@ export default {
       })
         .then((response) => {
           this.setTransaction(response.data.DATA);
-          console.log("KHJIHN");
+          console.log(response);
         })
         .catch(function (response) {
           console.log(response);
         });
     },
-  },
 };
 </script>
 

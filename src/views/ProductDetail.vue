@@ -82,7 +82,7 @@
         <div class="my-col-2" v-for="data in datas" v-bind:key="data.id">
           <p>Kategori / {{ data.category }}</p>
           <h1>{{ data.product_name }}</h1>
-          <span>ADAJATI Meuble </span>
+          <span>{{data.store_name}}</span>
           <h4>Rp.{{ data.product_price }}</h4>
           <b-textarea
             v-model="description"

@@ -48,7 +48,7 @@
               Nyamankan rumah anda dengan furniture baru,yang bisa anda dapatkan
               disini dengan berbagai penjual mebel seluruh jepara
             </p>
-            <a href="#" class="btn">Cari sekarang &#8594;</a>
+            <a href="/Produk" class="btn">Cari sekarang &#8594;</a>
           </div>
           <div class="my-col-2">
             <img src="../assets/images/Banner/big-banner.png" alt="" />
@@ -73,20 +73,17 @@
       </div>
     </div>
     <NewProduk/>
-    <ListProduk />
+  
     <Footer />
   </div>
 </template>
 <script>
 import NewProduk from "../components/home/NewProduct.vue";
-
-import ListProduk from "../components/home/ListProduct.vue";
 import Footer from "../components/Footer.vue";
 
 export default {
   components: {
     NewProduk,
-    ListProduk,
     Footer,
   },
   data() {

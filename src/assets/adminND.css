@@ -6,6 +6,16 @@
     --text-grey:#8390A2;
 }
 
+
+
+
+/*-------------PRIVATE-------------*/
+.ti-menu-alt{
+    color:white;
+}
+/*------------------------------- */
+
+
 *{
     font-family: 'Poppins',sans-serif;
     margin: 0;
@@ -116,7 +126,7 @@ header{
 
 main{
     margin-top: 60px;
-    background: #eff7f3;
+    background: #f3faf8;
     min-height: 90vh;
     padding:1rem 3rem;
 }
@@ -134,7 +144,7 @@ main{
 .fr-card-single{
         background: #fff;
         border-radius: 7px;
-        box-shadow: 2px 2px 2px rgba(0,0,0,0.3);
+        box-shadow: 0px 3px 10px rgba(73, 73, 73, 0.3);
 }
 
 .fr-card-body{

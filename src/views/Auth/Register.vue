@@ -46,12 +46,15 @@
                   label="Password"
                   required
                 ></v-text-field>
+                <v-app style="height:0px !important;">
                 <v-checkbox
                   v-model="isSeller"
                   label="Daftar Sebagai Penjual"
                   style="color: #4eb883 !important"
                   value="Yes"
                 ></v-checkbox>
+                </v-app>
+                <div style="margin-top:70px;">
                 <v-btn class="mr-4 btn-green" @click="Masuk">Daftar</v-btn>
                 <router-link
                   style="text-decoration: none; color: inherit; font-size: 13px"
@@ -59,6 +62,7 @@
                   to="/Login"
                   >Sudah Punya Akun?</router-link
                 >
+                </div>
               </form>
             </v-col>
           </v-row>
@@ -140,7 +144,11 @@ export default {
   color: #4eb883 !important;
 }
 .btn-green {
+  
   color: #ffff !important;
   background-color: #4eb883 !important;
+}
+.v-application--wrap{
+  height: 0px !important;
 }
 </style>

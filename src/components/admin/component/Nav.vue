@@ -8,13 +8,14 @@
         </button>
       </li>
       <li>
-        <a href="">
-          <span class="fr-ti-face-smile"></span>
-          <span>Produk</span>
-        </a>
+        <button>
+          <span><i class="fas fa-table" style="color:white"></i></span>
+          <span style="color: white; margin-left: 8px">Produk</span>
+        </button>
       </li>
       <li>
         <button @click="toDashboard()">
+          <span><i class="fas fa-chart-line" style="color:white"></i></span>
           <span style="color: white; margin-left: 8px">Dashboard</span>
         </button>
       </li>
@@ -31,9 +32,9 @@
         </button>
       </li>
       <li>
-        <button @click="cek()">
-          <span><i class="fa fa-money-bill" style="color: white"></i></span>
-          <span style="color: white; margin-left: 8px">Transaksi</span>
+        <button>
+          <span><i class="fas fa-file-excel" style="color:white"></i></span>
+         <span><a v-bind:href='this.url' style="margin-left: 8px !important; font-size:16px;">Unduh Transaksi</a></span>
         </button>
       </li>
     </ul>
@@ -41,6 +42,15 @@
 </template>
 <script>
 export default {
+  data(){
+   return{
+     url:''
+   }
+  },
+  mounted(){
+    var stringurl = `${this.$api}getExcel/`+localStorage.getItem('user-id')
+    this.url = stringurl
+  },
   methods: {
     toEdit() {
       this.$router.replace({ name: "EditProduk" });

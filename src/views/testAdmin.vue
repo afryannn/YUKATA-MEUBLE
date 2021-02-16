@@ -75,6 +75,7 @@ export default {
     },
   },
   mounted(){
+    console.log('mounted');
      var bodyFormData = new FormData();
       bodyFormData.append("user_id",localStorage.getItem("user-id"));
     axios({
@@ -86,6 +87,7 @@ export default {
         .then((response) => {
           if(response.data.MESSAGE == "ERROR"){
             this.compMain = true
+            console.log(localStorage.getItem('user-id'));
           }else{
             this.compMain = false
             this.btnStore = true
