@@ -8,6 +8,7 @@ import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
 import Product from '../views/Product.vue'
 import Search from '../views/Search.vue'
+import NewStore from '../views/admin/NewStore.vue'
 import Logout from '../views/Logout.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import EditProduk from '../views/admin/EditProduk.vue'
@@ -58,6 +59,12 @@ const routes = [
         path: '/Register',
         name: 'Register',
         component: Register
+    },
+    {
+        path: '/NewStore',
+        name: 'NewStore',
+        component: NewStore,
+        beforeEnter: guardMyroute,
     },
     {
         path: '/Remove',

@@ -55,7 +55,7 @@
     <div class="card-img-p">
       <div class="row">
         <div class="col-6" style="padding: 0 !important">
-          <img :src="prevImg1" class="fr-img-thumbnail" />
+          <img :src="prevImg2" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
           <div class="button-wrapper">
@@ -80,7 +80,7 @@
     <div class="card-img-p">
       <div class="row">
         <div class="col-6" style="padding: 0 !important">
-          <img :src="prevImg1" class="fr-img-thumbnail" />
+          <img :src="prevImg3" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
           <div class="button-wrapper">
@@ -105,7 +105,7 @@
     <div class="card-img-p">
       <div class="row">
         <div class="col-6" style="padding: 0 !important">
-          <img :src="prevImg1" class="fr-img-thumbnail" />
+          <img :src="prevImg4" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
           <div class="button-wrapper">
@@ -130,7 +130,7 @@
     <div class="card-img-p">
       <div class="row">
         <div class="col-6" style="padding: 0 !important">
-          <img :src="prevImg1" class="fr-img-thumbnail" />
+          <img :src="prevImg5" class="fr-img-thumbnail" />
         </div>
         <div class="col" style="padding: 0 !important">
           <div class="button-wrapper">

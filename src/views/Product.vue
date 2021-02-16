@@ -1,5 +1,11 @@
 <template>
   <div>
+     <v-overlay :value="loading" :opacity="0.90">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -85,6 +91,7 @@ export default {
       id: "",
       username: "",
       datas: [],
+      loading: true,
     };
   },
   methods: {
@@ -93,10 +100,12 @@ export default {
     },
   },
   mounted() {
+    this.loading = true
     axios
       .get(`${this.$api}list-produk2`)
-      .then((response) => this.setProduct(response.data.DATA))
-      .catch((error) => console.log("Fail : ", error));
+      .then((response) => 
+      this.setProduct(response.data.DATA))
+      this.loading = false
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
   },

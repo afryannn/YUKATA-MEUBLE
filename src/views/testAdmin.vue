@@ -32,7 +32,9 @@
       <main>
         <Main v-show="this.compMain"></Main>
         <button class="btn-create-store" v-show="this.btnStore">
-           <p style="margin:auto; color:white !important;"><span>+ </span><b>Buat Toko</b></p>
+            <router-link to="/NewStore" style="text-decoration:none !important;">
+           <p style="margin:auto; color:white !important;"><span>+</span><b>Buat Toko</b></p>
+            </router-link>
         </button>
       </main>
 

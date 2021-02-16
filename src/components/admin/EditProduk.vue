@@ -1,10 +1,16 @@
 <template>
   <div class="container">
+    <v-overlay :value="loading" :opacity="0.90">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="card" style="width: 100%">
-      <div class="card-body">
+      <div class="card-body overflow-auto">
         <table
           id="example"
-          class="table table-striped table-bordered"
+          class="table table-striped table-bordered \"
           style="width: 100%; overflow-x: scroll"
         >
           <thead>
@@ -50,14 +56,15 @@
                       )
                     "
                     style="
-                    background:#28df99;
-                    width:100px;
-                      outline:none !important;
-                    border-radius:5px;
-                    height:35px;"
+                      background: #28df99;
+                      width: 100px;
+                      outline: none !important;
+                      border-radius: 5px;
+                      height: 35px;
+                    "
                   >
                     <i class="far fa-edit" style="color: white"></i>
-                    <span style="margin-left:6px; color:white">Simpan</span>
+                    <span style="margin-left: 6px; color: white">Simpan</span>
                   </button>
                 </center>
               </td>
@@ -67,6 +74,12 @@
       </div>
 
       <v-overlay :value="screenOverlay">
+        <v-overlay :value="loading2" :opacity="0.90">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
         <div
           class="card"
           style="
@@ -156,7 +169,7 @@
               * Gambar Harus Berformat PNG,JPG,JPEG!!
             </p>
 
-             <div class="card-img-p">
+            <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
                   <img :src="prevImg1" class="fr-img-thumbnail" />
@@ -180,7 +193,7 @@
               * Gambar Harus Berformat PNG,JPG,JPEG!!
             </p>
 
-             <div class="card-img-p">
+            <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
                   <img :src="prevImg1" class="fr-img-thumbnail" />
@@ -259,6 +272,8 @@ export default {
       eImg3: false,
       eImg4: false,
       eImg5: false,
+      loading: false,
+      loading2: false,
       slct: null,
     };
   },
@@ -317,7 +332,7 @@ export default {
         this.eImg3 = true;
       }
     },
-     onFileSelected4(event) {
+    onFileSelected4(event) {
       let image = event.target.files[0];
       if (
         image["type"] === "image/jpeg" ||
@@ -335,7 +350,7 @@ export default {
         this.eImg4 = true;
       }
     },
-     onFileSelected5(event) {
+    onFileSelected5(event) {
       let image = event.target.files[0];
       if (
         image["type"] === "image/jpeg" ||
@@ -383,20 +398,21 @@ export default {
         vImg3 = this.select.img3;
         console.log("Updated" + vImg3);
       }
-       if (!this.select.img4) {
+      if (!this.select.img4) {
         vImg4 = this.iImg.img4;
         console.log("No Update");
       } else {
         vImg4 = this.select.img4;
         console.log("Updated" + vImg4);
       }
-       if (!this.select.img5) {
+      if (!this.select.img5) {
         vImg5 = this.iImg.img5;
         console.log("No Update");
       } else {
         vImg5 = this.select.img5;
         console.log("Updated" + vImg5);
       }
+      this.loading2 = true
       var bodyFormData = new FormData();
       bodyFormData.append("key_produk", this.keyProduct);
       bodyFormData.append("img1", vImg1);
@@ -410,11 +426,12 @@ export default {
         url: `${this.$api}update-produk`,
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
-      }).then((response) => {
-        console.log(response);
+      }).then(() => {
+        this.loading2 = false
       });
     },
     async overlay(pKey) {
+      this.loading = true
       var bodyFormData = new FormData();
       bodyFormData.append("product_key", pKey);
       await axios({
@@ -423,7 +440,7 @@ export default {
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
       }).then((response) => {
-        console.log(response);
+        this.loading = false
         this.keyProduct = response.data.ITEM.product_key;
         this.iImg.img1 = response.data.ITEM.img1;
         this.iImg.img2 = response.data.ITEM.img2;
@@ -437,7 +454,7 @@ export default {
       this.screenOverlay = false;
     },
     StartUpdate(pKey, pName, pDesc, pPrice, pStok) {
-      console.log(pKey, pName, pDesc, pPrice, pStok);
+      this.loading = true
       var bodyFormData = new FormData();
       bodyFormData.append("key_produk", pKey);
       bodyFormData.append("nama_produk", pName);
@@ -450,12 +467,13 @@ export default {
         url: `${this.$api}update-produk`,
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
-      }).then((response) => {
-        console.log(response);
+      }).then(() => {
+         this.loading = false
       });
     },
   },
   mounted() {
+    this.loading = true
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", localStorage.getItem("user-id"));
     axios({
@@ -465,10 +483,9 @@ export default {
       headers: { "Content-Type": "multipart/form-data" },
     })
       .then((response) => {
-        console.log(response.data);
+        this.loading = false
         this.items = response.data.DATA;
       })
-      .catch(function () {});
   },
 };
 </script>

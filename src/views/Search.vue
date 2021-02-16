@@ -4,7 +4,7 @@
       <div class="my-container">
         <div class="my-navbar">
           <div class="my-logo">
-           <img src="../assets/b.png" width="180px" />
+            <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
             <ul id="MenuItems">
@@ -36,52 +36,74 @@
             <p></p>
             <div class="input-group flex-nowrap">
               <input
-               v-model ="search"
+                v-model="search"
                 type="text"
-    
                 class="form-control"
                 placeholder="Cari..."
                 aria-label="Cari"
                 aria-describedby="addon-wrapping"
               />
               <div class="input-group-prepend">
-                <button style="
-                color:white;
-                margin-left:10px;
-                border-radius:5px;
-                height:38px;
-                width:80px;
-                background:#28df99;" id="addon-wrapping" @click="searchProduct">Cari</button>
+                <button
+                  style="
+                    color: white;
+                    margin-left: 10px;
+                    border-radius: 5px;
+                    height: 38px;
+                    width: 80px;
+                    background: #28df99;
+                  "
+                  id="addon-wrapping"
+                  @click="searchProduct"
+                >
+                  Cari
+                </button>
               </div>
             </div>
           </div>
           <h3>Hasil Produk</h3>
+
           <div class="my-row">
-            <div class="my-col-4" v-for="data in dSearch" :key="data.id">
-                <div
-            class="card"
-            style="width: 15rem; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2)"
-          >
-            <router-link
-              :to="'/Produk/' + data.product_key"
-              style="text-decoration: none !important"
+            <div
+              v-show="isEmpty"
+              class="my-col-4"
+              v-for="data in dSearch"
+              :key="data.id"
             >
-              <div class="card-body">
-                <img src="../assets/images/mejatv2.png" />
-                <h6
-                  style="
-                    color: #222831 !important;
-                    font-weight: bold !important;
-                  "
+              <div
+                class="card"
+                style="width: 15rem; box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2)"
+              >
+                <router-link
+                  :to="'/Produk/' + data.product_key"
+                  style="text-decoration: none !important"
                 >
-                  {{ data.product_name }}
-                </h6>
-                <p>{{ data.name }}<br />Rp.{{ data.product_price }}</p>
+                  <div class="card-body">
+                    <img src="../assets/images/mejatv2.png" />
+                    <h6
+                      style="
+                        color: #222831 !important;
+                        font-weight: bold !important;
+                      "
+                    >
+                      {{ data.product_name }}
+                    </h6>
+                    <p>{{ data.name }}<br />Rp.{{ data.product_price }}</p>
+                  </div>
+                </router-link>
               </div>
-            </router-link>
-          </div>
             </div>
-             <img v-show="notfound" src="../assets/nfound.png" width="190px" style="margin-top:50px !important;"/>
+            <v-progress-circular
+              indeterminate
+              v-show="this.loading"
+              style="color: #28df99; margin-top: 10px !important"
+            ></v-progress-circular>
+            <img
+              v-show="notfound"
+              src="../assets/nfound.png"
+              width="190px"
+              style="margin-top: 50px !important"
+            />
           </div>
         </div>
       </div>
@@ -92,44 +114,49 @@
 import axios from "axios";
 
 export default {
-  components: {
-  
-  },
+  components: {},
   data() {
     return {
-      notfound:false,
+      notfound: false,
       id: "",
       username: "",
-      search:"",
-      dSearch:[]
+      search: "",
+      dSearch: [],
+      loading: false,
+      isEmpty: true,
     };
   },
   methods: {
     setSearch(data) {
       this.dSearch = data;
     },
-    searchProduct(){
-      var bodyFormData = new FormData();
-      bodyFormData.append("kata_kunci", this.search);
-      axios({
-        method: "post",
-        url: `${this.$api}search-produk`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-           console.log(response.data.DATA);
-              this.notfound = false 
-              this.setSearch(response.data.DATA);
-          
-           if(response.data.MESSAGE == "Kata kunci tidak ditemukan"){
-              this.notfound = true 
-           }
-        })
-        .catch(function (response) {
-          console.log(response);
+    searchProduct() {
+      if (!this.search) {
+        this.isEmpty = false;
+      } else {
+        this.loading = true;
+        this.isEmpty = false;
+        this.notfound = false;
+        var bodyFormData = new FormData();
+        bodyFormData.append("kata_kunci", this.search);
+        axios({
+          method: "post",
+          url: `${this.$api}search-produk`,
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
+        }).then((response) => {
+          console.log(response.data.DATA);
+          this.notfound = false;
+          this.loading = false;
+          this.isEmpty = true;
+          this.setSearch(response.data.DATA);
+          if (response.data.MESSAGE == "Kata kunci tidak ditemukan") {
+            this.notfound = true;
+            this.loading = false;
+          }
         });
-       }
+      }
+    },
   },
   mounted() {
     this.id = localStorage.getItem("user-id");

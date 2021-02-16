@@ -90,6 +90,7 @@
             class="txt-area-1 form-control"
           >
           </b-textarea>
+           <!-- <img src="../assets/images/wapng.png" style="width:50px !important"> -->
           <b-textarea
             v-model="address"
             placeholder="Alamat Lengkap"
@@ -99,6 +100,19 @@
           <p v-show="alertAddress" style="color: red; font-size: 13px">
             * Mohon Isi Alamat Lengkap!
           </p>
+          <div style="height:10px;"></div>
+          <div style=
+          "margin-top:15px !important;
+          background:white;
+          border-style: solid;
+          border-width: thin;
+          border-radius:15px;
+          border-color:#dddddd !important;
+          height:35px !important;
+          width:180px !important;
+           margin:0px !important;">
+             <p class="text-center pwa"><img src="../assets/images/wapng.png" style="margin-bottom:2px;width:28px !important">+628970025959</p>
+          </div>
           <Button @click="Buy()" class="btn">Pesan</Button>
           <h3>Deskripsi</h3>
           <p>
@@ -157,7 +171,7 @@ export default {
         bodyFormData.append("product_key", this.$route.params.product_key);
         bodyFormData.append("img1", img1);
         bodyFormData.append("description", dscVal);
-        bodyFormData.append("address_seller", address);
+        bodyFormData.append("visitor_name", localStorage.getItem('username'));
         bodyFormData.append("address_customer", address);
 
         if (localStorage.getItem("role_user") == "SELLER") {
@@ -191,6 +205,10 @@ export default {
 };
 </script>
 <style scoped>
+.btn{
+  margin: 0px !important;
+  margin-top: 15px !important;
+}
 .txt-area-1 {
   width: 25rem;
   height: 6rem;
@@ -199,6 +217,9 @@ export default {
   margin-top: 10px;
   width: 25rem;
   height: 3rem;
+}
+.pwa{
+  margin-top:3px;
 }
 @media only screen and (max-width: 800px) {
   .txt-area-1 .txt-area-2 {
