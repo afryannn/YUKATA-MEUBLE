@@ -266,7 +266,7 @@ export default {
       ],
       dialog: false,
       screenOverlay: false,
-      prevImg1: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
+      prevImg1: " ",
       eImg1: false,
       eImg2: false,
       eImg3: false,

@@ -8,6 +8,7 @@ import Login from '../views/Auth/Login.vue'
 import Register from '../views/Auth/Register.vue'
 import Product from '../views/Product.vue'
 import Search from '../views/Search.vue'
+import UserProfil from '../views/UserProfil'
 import NewStore from '../views/admin/NewStore.vue'
 import Logout from '../views/Logout.vue'
 import ProductDetail from '../views/ProductDetail.vue'
@@ -37,6 +38,10 @@ function guardMyroute(to, from, next) {
         next('/login');
     }
 }
+
+// function guardMyroute2(to, from, next) {
+//     next('/');
+// }
 
 
 const routes = [
@@ -76,6 +81,12 @@ const routes = [
         name: 'Newproduk',
         component: Newproduk,
         beforeEnter: guardMyroute,
+    },
+    {
+        path: '/user',
+        name: 'user',
+        component: UserProfil,
+        // beforeEnter:guardMyroute,guardMyroute2, 
     },
     {
         path: '/ProdukRepair',

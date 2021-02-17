@@ -1,6 +1,5 @@
 <template>
   <div>
-
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -29,7 +28,7 @@
                   <router-link to="/Dashboard">Dashboard</router-link>
                 </div>
                 <div v-else>
-                  <router-link to="/">{{this.username}}</router-link>
+                  <router-link to="/user">cjfk</router-link>
                 </div>
               </li>
             </ul>
@@ -118,14 +117,14 @@ export default {
     //   }else{
     //     MenuItems.style.maxHeight = "200px";
     //   }
-      // if (click == true) {
-      //   MenuItems.style.maxHeight = "200px";
-      //   console.log("knjibn");
-      // }
-      //  else {
-      //   console.log("haha");
-      //   MenuItems.style.maxHeight = "0px";
-      // }
+    //   if (click == true) {
+    //     MenuItems.style.maxHeight = "200px";
+    //     console.log("knjibn");
+    //   }
+    //    else {
+    //     console.log("haha");
+    //     MenuItems.style.maxHeight = "0px";
+    //   }
     },
   },
 
