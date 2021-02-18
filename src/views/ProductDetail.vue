@@ -41,7 +41,7 @@
     </div>
 
     <div class="my-small-container single-product">
-      <div class="my-row">
+      <div class="my-row overflow-auto">
         <div class="my-col-2">
           <img
             src="../assets/images/mejatv2.png"
@@ -92,7 +92,7 @@
           </b-textarea>
            <!-- <img src="../assets/images/wapng.png" style="width:50px !important"> -->
           <b-textarea
-            v-model="address"
+            v-model="v_address"
             placeholder="Alamat Lengkap"
             class="txt-area-2 form-control"
           >
@@ -111,7 +111,7 @@
           height:35px !important;
           width:180px !important;
            margin:0px !important;">
-             <p class="text-center pwa"><img src="../assets/images/wapng.png" style="margin-bottom:2px;width:28px !important">+628970025959</p>
+             <p class="text-center pwa"><img src="../assets/images/wapng.png" style="margin-bottom:2px;width:28px !important">{{data.telephone}}</p>
           </div>
           <Button @click="Buy()" class="btn">Pesan</Button>
           <h3>Deskripsi</h3>
@@ -132,7 +132,7 @@ export default {
       id: "",
       username: "",
       description: "",
-      address: "",
+      v_address: "",
       alertAddress: false,
       datas: [],
       loading: false,
@@ -158,8 +158,9 @@ export default {
         var product_price = this.datas[i].product_price;
         var address = this.datas[i].address;
         var img1 = this.datas[i].img1;
+        var telephone = this.datas[i].telephone;
       }
-      if (!this.address) {
+      if (!this.v_address) {
         this.alertAddress = true;
       } else {
         var bodyFormData = new FormData();
@@ -171,9 +172,12 @@ export default {
         bodyFormData.append("product_key", this.$route.params.product_key);
         bodyFormData.append("img1", img1);
         bodyFormData.append("description", dscVal);
+        bodyFormData.append("seller_telephone", telephone);
+        bodyFormData.append("visitor_telephone",localStorage.getItem('telephone'));
         bodyFormData.append("visitor_name", localStorage.getItem('username'));
-        bodyFormData.append("address_customer", address);
-
+        bodyFormData.append("address_seller", address);
+        bodyFormData.append("address_customer", this.v_address);
+        
         if (localStorage.getItem("role_user") == "SELLER") {
           this.$router.replace({ name: "Dashboard" });
         } else {
@@ -184,7 +188,8 @@ export default {
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
           })
-            .then(() => {
+            .then((res) => {
+              console.log(res)
               this.loading = false;
             })
             .catch(function (response) {
@@ -195,11 +200,15 @@ export default {
     },
   },
   mounted() {
+    this.loading = true
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     axios
       .get(`${this.$api}Detail/` + this.$route.params.product_key)
-      .then((response) => this.setProduct(response.data))
+      .then((response) =>
+      this.setProduct(response.data),
+      this.loading = false
+      )
       .catch((error) => console.log("Fail : ", error));
   },
 };

@@ -1,5 +1,11 @@
 <template>
   <div>
+    <v-overlay :value="loading" :opacity="0.9">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -28,7 +34,9 @@
                   <router-link to="/Dashboard">Dashboard</router-link>
                 </div>
                 <div v-else>
-                  <router-link to="/user" class="hover-c">cjfk</router-link>
+                  <router-link to="/user" class="hover-c">{{
+                    this.username
+                  }}</router-link>
                 </div>
               </li>
             </ul>
@@ -39,49 +47,85 @@
             @click="menutoggle()"
           />
         </div>
-        <p class="text-center">Hallo {{ this.username }}</p>
+       
         <div class="card shadow">
           <div class="card-body">
-            <table class="table table-bordered">
+            <h4 class="text-center">Daftar Transaksi</h4>
+            <table class="table table-bordered mt-4">
               <thead>
                 <tr>
-                  <th scope="col">Gambar</th>
+                  <th scope="col" class="text-center">Gambar</th>
                   <th scope="col">Produk</th>
                   <th scope="col">Desc</th>
                   <th scope="col">Harga</th>
                   <th scope="col">Penjual</th>
-                  <th scope="col">Pdf</th>
-                  <th scope="col">Status</th>
+                  <th scope="col" class="text-center">Pdf</th>
+                  <th scope="col" class="text-center">Status</th>
                 </tr>
               </thead>
               <tbody>
-                <tr>
-                  <th scope="row">1</th>
-                  <td>Mark</td>
-                  <td>Otto</td>
-                  <td>@mdo</td>
-                  <td>@mdo</td>
+                <tr v-for="e in items" v-bind:key="e.id">
+                  <th class="text-center">
+                    <img
+                      @click="overlay(e.product_key)"
+                      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                      style="width: 75px; height: 75px"
+                    />
+                  </th>
+                  <td>{{ e.product_name }}</td>
+                  <td>{{ e.description }}</td>
+                  <td>{{ e.product_price }}</td>
+                  <td>{{ e.store_name }}</td>
                   <td class="text-center" style="padding: 0px !important">
                     <button
                       style="
-                        margin-top: 8px;
+                        margin-top: 30px;
                         border-radius: 5px;
-                        background: red;
+                        background: #dc3545;
                         height: 35px;
                         width: 35px;
                       "
-                    ></button>
+                      @click="getPdf(e.id)"
+                    >
+                      <i class="fas fa-file-pdf" style="color: white"></i>
+                    </button>
                   </td>
-                  <td class="text-center" style="padding: 0px !important">
+                  <td
+                    class="text-center"
+                    style="padding: 0px !important"
+                    v-if="e.status == 'DI PROSES'"
+                  >
                     <button
+                      @click="confirm(e.id)"
                       style="
-                        margin-top: 8px;
+                        color:white;
+                        margin-top: 30px;
                         border-radius: 5px;
-                        background: red;
+                        background: #28df99;
                         height: 35px;
                         width: 80px;
                       "
-                    ></button>
+                    >
+                      Di Proses
+                    </button>
+                  </td>
+                  <td
+                    class="text-center"
+                    style="padding: 0px !important"
+                    v-if="e.status == 'SELESAI'"
+                  >
+                    <button
+                      @click="confirm(e.id)"
+                      style="
+                        margin-top: 30px;
+                        border-radius: 5px;
+                        background: #d3e0ea;
+                        height: 35px;
+                        width: 80px;
+                      "
+                    >
+                      Selesai
+                    </button>
                   </td>
                 </tr>
               </tbody>
@@ -93,6 +137,7 @@
   </div>
 </template>
 <script>
+import axios from "axios";
 export default {
   components: {},
   data() {
@@ -101,6 +146,7 @@ export default {
       username: "",
       role: "",
       loading: false,
+      items: [],
       // Nav:false
     };
   },
@@ -108,33 +154,45 @@ export default {
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role_user");
-    console.log(document.getElementById("MenuItems"));
+    var bodyFormData = new FormData();
+    bodyFormData.append("id", this.id);
+    axios({
+      method: "post",
+      url: `${this.$api}visitor_transaksi`,
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    })
+      .then((response) => {
+        this.items = response.data.DATA;
+        console.log(this.items);
+        this.$router.reload()
+      })
+      .catch(function (response) {
+        console.log(response);
+      });
   },
   methods: {
-    menutoggle() {
-      //   var MenuItems = document.getElementById("MenuItems");
-      // // this.Nav = true
-      // if(this.Nav == false){
-      //   this.Nav = true
-      // }else if(this.Nav == true){
-      //   this.Nav = false
-      // }
-      //   var MenuItems = document.getElementById("MenuItems");
-      //  // var click = false;
-      //   if(MenuItems){
-      //     MenuItems.style.maxHeight = "0px";
-      //     console.log(MenuItems);
-      //   }else{
-      //     MenuItems.style.maxHeight = "200px";
-      //   }
-      //   if (click == true) {
-      //     MenuItems.style.maxHeight = "200px";
-      //     console.log("knjibn");
-      //   }
-      //    else {
-      //     console.log("haha");
-      //     MenuItems.style.maxHeight = "0px";
-      //   }
+    getPdf(id) {
+       axios({
+        method: "get",
+        url: `${this.$api}getPdf/${id}`,
+        });
+    },
+    confirm(id) {
+      this.loading = true
+      var bodyFormData = new FormData();
+      bodyFormData.append("id", id);
+      axios({
+        method: "post",
+        url: `${this.$api}user-confirm`,
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      }).then((res) => {
+        if (res.data.MESSAGE == "SUCCESS") {
+         this.$router.go(this.$router.currentRoute)
+          this.loading = false
+        }
+      });
     },
   },
 };

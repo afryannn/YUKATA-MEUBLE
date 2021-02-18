@@ -106,27 +106,6 @@
                 <div class="card" style="box-shadow: 1px 1px 4px #cdd0cb">
                   <div class="row">
                     <div class="col text-center">
-                      <b><p style="color: #28df99">Nomor Telephone</p></b>
-                      <input
-                        type="number"
-                        placeholder="Masukan Telephone"
-                        class="text-center"
-                      />
-                      <p
-                        v-show="this.err.tlp"
-                        style="color: red; font-size: 8px"
-                      >
-                        * Nama Toko Harus Diisi!!
-                      </p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div class="container">
-                <div class="card" style="box-shadow: 1px 1px 4px #cdd0cb">
-                  <div class="row">
-                    <div class="col text-center">
                       <b><p style="color: #28df99">Alamat</p></b>
                       <input
                         type="text"

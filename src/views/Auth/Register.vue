@@ -35,6 +35,13 @@
                   required
                 ></v-text-field>
                 <v-text-field
+                  type="number"
+                  class="text-green"
+                  v-model="telephone"
+                  label="Telephone"
+                  required
+                ></v-text-field>
+                <v-text-field
                   class="text-green"
                   v-model="username"
                   label="username"
@@ -80,6 +87,7 @@ export default {
     return {
       nama: "",
       email: "",
+      telephone:"",
       username: "",
       password: "",
       isSeller: "VISTOR",
@@ -96,6 +104,7 @@ export default {
       var bodyFormData = new FormData();
       bodyFormData.append("nama", this.nama);
       bodyFormData.append("email", this.email);
+      bodyFormData.append("telephone", this.telephone);
       bodyFormData.append("username", this.username);
       bodyFormData.append("password", this.password);
       bodyFormData.append("role_user", this.isSeller);

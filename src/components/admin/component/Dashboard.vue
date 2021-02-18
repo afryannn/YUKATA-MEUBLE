@@ -136,7 +136,7 @@ export default {
       })
         .then((response) => {
           this.setTransaction(response.data.DATA);
-          console.log(response);
+         
         })
         .catch(function (response) {
           console.log(response);

@@ -28,7 +28,7 @@
                   <router-link to="/Dashboard">Dashboard</router-link>
                 </div>
                 <div v-else>
-                  <router-link to="/user">cjfk</router-link>
+                  <router-link to="/user">{{this.username}}</router-link>
                 </div>
               </li>
             </ul>
