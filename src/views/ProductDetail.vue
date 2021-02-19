@@ -82,7 +82,7 @@
         <div class="my-col-2" v-for="data in datas" v-bind:key="data.id">
           <p>Kategori / {{ data.category }}</p>
           <h1>{{ data.product_name }}</h1>
-          <span>{{data.store_name}}</span>
+          <span @click="store(data.store_name)">{{data.store_name}}</span>
           <h4>Rp.{{ data.product_price }}</h4>
           <b-textarea
             v-model="description"
@@ -139,6 +139,10 @@ export default {
     };
   },
   methods: {
+    store(e){
+     var url = "http://localhost:8080/s/" + e;
+     window.location.href = url;
+    },
     setProduct(data) {
       this.datas = data;
     },

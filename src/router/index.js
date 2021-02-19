@@ -5,6 +5,7 @@ import Home from '../views/Home.vue'
 import Test from '../views/testAdmin.vue'
 //import testing from '../views/testAdmin.vue'
 import Login from '../views/Auth/Login.vue'
+import Store from '../views/Store.vue'
 import Register from '../views/Auth/Register.vue'
 import Product from '../views/Product.vue'
 import Search from '../views/Search.vue'
@@ -98,6 +99,11 @@ const routes = [
         path: '/Produk/:product_key',
         name: 'Detail',
         component: ProductDetail,
+    },
+    {
+        path: '/s/:store',
+        name: 'Store',
+        component: Store
     },
     {
         path: '/Cari',

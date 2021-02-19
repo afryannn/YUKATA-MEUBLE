@@ -1,5 +1,6 @@
 <template>
   <div>
+    <loading v-show="loading"></loading>
     <v-text-field
       class="text-green"
       v-model="valProductDesc"
@@ -159,10 +160,14 @@
 
 <script>
 import axios from "axios";
-
+import loading from '../loading';
 export default {
+  components:{
+    loading
+  },
   data() {
     return {
+      loading:false,
       valDeskripsi: "",
       valHarga: "",
       valStock: "",
@@ -292,6 +297,7 @@ export default {
     },
     //END
     async Save() {
+      this.loading = true
       if (this.ifEmpty == true) {
         console.log("Kosong");
         this.emptyImg1 = true;
@@ -331,6 +337,7 @@ export default {
             console.log(res.data)
             localStorage.removeItem("product-key");
             this.$router.replace({ name: "Dashboard" });
+            this.loading = false
           })
           .catch(function (response) {
             console.log(response);

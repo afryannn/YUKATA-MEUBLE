@@ -99,6 +99,7 @@ export default {
           this.eProduct = false;
           this.eSelec = true;
         } else {
+          this.eProduct = false;
           this.eSelec = false;
           var bodyFormData = new FormData();
           bodyFormData.append("user_id", localStorage.getItem("user-id"));

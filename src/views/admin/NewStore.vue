@@ -34,7 +34,9 @@
             <div
               class="jumbotron jumbotron-fluid"
               style="background-position: center; background-size: cover"
-              :style="{ 'background-image': 'url(' + this.iBanner + ')' }"
+              :style="{
+                backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${this.iBanner}')`,
+              }"
             >
               <div class="container text-center">
                 <h1 style="color: #28df99">Gambar Banner</h1>
@@ -89,12 +91,15 @@
                     <div class="col text-center">
                       <b><p style="color: #28df99">Nama Toko</p></b>
                       <input
-                        v-model="this.name"
+                        v-model="name"
                         type="text"
                         placeholder="Masukan Nama"
                         class="text-center"
                       />
-                      <p v-show="this.err.eName" style="color: red; font-size: 8px">
+                      <p
+                        v-show="this.err.eName"
+                        style="color: red; font-size: 8px"
+                      >
                         * Nama Toko Harus Diisi!!
                       </p>
                     </div>
@@ -108,6 +113,7 @@
                     <div class="col text-center">
                       <b><p style="color: #28df99">Alamat</p></b>
                       <input
+                        v-model="address"
                         type="text"
                         placeholder="Masukan Alamat"
                         class="text-center"
@@ -131,7 +137,7 @@
                 >
                   <b><p style="color: #28df99">Deskripsi</p></b>
                   <textarea
-                    v-model="this.desc"
+                    v-model="desc"
                     class="text-center"
                     placeholder="Masukan Deskripsi"
                     style="height: 100%; outline: none"
@@ -149,7 +155,7 @@
                   value="Bike"
                 />
 
-                <label for="vehicle1"> Saya Setuju Dengan Policy</label><br />
+                <label>Klik Untuk Melanjutkan</label><br />
                 <button
                   @click="store()"
                   style="
@@ -174,6 +180,7 @@
   </div>
 </template>
 <script>
+import axios from 'axios';
 import Nav from "../../components/admin/component/Nav";
 
 export default {
@@ -194,10 +201,10 @@ export default {
         eDesc: false,
       },
       select: [{ banner: null }, { profil: null }],
-      name:"",
-      tlp: '',
-      address:'',
-      desc:'',
+      name: "",
+      tlp: "",
+      address: "",
+      desc: "",
     };
   },
   methods: {
@@ -211,10 +218,10 @@ export default {
         this.select.banner = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
-        reader.onload = () => {
-          // this.prev.img1 = e.target.result;
+        reader.onload = (e) => {
+          this.iBanner = e.target.result;
           this.err.eBanner = false;
-          console.log(this.eBanner);
+          console.log(e);
         };
       } else {
         this.err.eBanner = true;
@@ -230,8 +237,8 @@ export default {
         this.select.profil = image;
         let reader = new FileReader();
         reader.readAsDataURL(image);
-        reader.onload = () => {
-          // this.prev.img1 = e.target.result;
+        reader.onload = (e) => {
+          this.iProfil = e.target.result;
           this.err.eProfil = false;
           console.log(this.eBanner);
         };
@@ -240,9 +247,53 @@ export default {
       }
     },
     store() {
-      console.log(this.name);
+     var name = "";
+      var address = "";
+      var desc = "";
+      if (!this.name) {
+        this.err.eName = true;
+        name = "NULL";
+      } else {
+        this.err.eName = false;
+        name = this.name;
+      }
+      if (!this.address) {
+        this.err.eAddress = true;
+        address = "NULL";
+      } else{
+        this.err.eAddress = false;
+        address = this.address;
+      }
+      if (!this.desc) {
+        this.err.eDesc = true;
+        desc = "NULL";
+      } else {
+        this.err.eDesc = false;
+        desc = this.desc;
+      }
+      var bodyFormData = new FormData();
+      bodyFormData.append("user_id", localStorage.getItem('user-id'));
+      bodyFormData.append("img_profil", this.select.profil);
+      bodyFormData.append("img_banner", this.select.banner);
+      bodyFormData.append("nama_toko", name);
+      bodyFormData.append("telephone",localStorage.getItem('telephone'));
+      bodyFormData.append("deskripsi", desc);
+      bodyFormData.append("alamat", address);
+      axios({
+        method: "post",
+        url: `${this.$api}create_store`,
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((response) => {
+          console.log(response);
+        })
+        .catch(function (response) {
+          console.log(response);
+        });
     },
   },
+
   mounted() {},
 };
 </script>

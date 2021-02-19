@@ -1,11 +1,6 @@
 <template>
   <div class="container">
-    <v-overlay :value="loading" :opacity="0.90">
-      <v-progress-circular
-        indeterminate
-        style="color: #28df99"
-      ></v-progress-circular>
-    </v-overlay>
+  
     <div class="card" style="width: 100%">
       <div class="card-body overflow-auto">
         <table

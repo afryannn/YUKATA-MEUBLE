@@ -5,8 +5,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Total Saldo</h5>
-            <h4>Rp.500K</h4>
+            <h5 >Jumlah Produk</h5>
+            <h4 class="text-center">4</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -18,8 +18,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Total Saldo</h5>
-            <h4>Rp.500K</h4>
+            <h5>Jumlah Transaksi</h5>
+            <h4 class="text-center">5</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -31,8 +31,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Total Saldo</h5>
-            <h4>Rp.500K</h4>
+            <h5>Transaksi Sukse</h5>
+            <h4 class="text-center">1</h4>
           </div>
         </div>
         <div class="fr-card-footer">
