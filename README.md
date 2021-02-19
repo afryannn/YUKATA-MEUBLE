@@ -1,5 +1,7 @@
 # testing
 
+<img src="https://cdn.vuetifyjs.com/images/cards/cooking.png"/>
+
 ## Project setup
 ```
 npm install
