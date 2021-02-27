@@ -17,9 +17,9 @@
               <li>
                 <router-link to="/Cari" class="hover-c">Cari</router-link>
               </li>
-              <li>
+              <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
-              </li>
+              </li> -->
               <li v-if="this.id == null">
                 <router-link to="/Login">Login</router-link>
               </li>
@@ -61,7 +61,7 @@
               </div>
             </div>
           </div>
-          <h3>Hasil Produk</h3>
+          <h3 class="text-center">Hasil Produk</h3>
 
           <div class="my-row">
             <div
@@ -79,9 +79,10 @@
                   style="text-decoration: none !important"
                 >
                   <div class="card-body">
-                    <img src="../assets/images/mejatv2.png" />
+                    <img :src="url+data.img1" />
                     <h6
                       style="
+                        font-size:18px;
                         color: #222831 !important;
                         font-weight: bold !important;
                       "
@@ -124,6 +125,7 @@ export default {
       dSearch: [],
       loading: false,
       isEmpty: true,
+      url:"http://localhost:8000/api/v1/src/",
     };
   },
   methods: {

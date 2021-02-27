@@ -14,6 +14,7 @@ import NewStore from '../views/admin/NewStore.vue'
 import Logout from '../views/Logout.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import EditProduk from '../views/admin/EditProduk.vue'
+import Guide from '../views/admin/Guide.vue'
 //import Dashboard from '../views/admin/Dashboard.vue'
 import Delete from '../views/admin/DestroyProduk.vue'
 import Newproduk from '../views/admin/NewProduk.vue'
@@ -65,6 +66,11 @@ const routes = [
         path: '/Register',
         name: 'Register',
         component: Register
+    },
+    {
+        path: '/Guide',
+        name: 'Guide',
+        component: Guide
     },
     {
         path: '/NewStore',

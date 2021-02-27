@@ -6,7 +6,6 @@
         style="color: #28df99"
       ></v-progress-circular>
     </v-overlay>
-    <a href="http://localhost:8000/api/v1/getPdf">Pdf</a>
     <div class="pd">
       <v-card class="mx-auto" max-width="600">
         <v-app-bar color="#4EB883"> </v-app-bar>

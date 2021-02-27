@@ -1,0 +1,33 @@
+ <div class="small-img-col m-1">
+              <img
+                style="border-radius: 7px"
+                :src="url+e.img2"
+                width="93%"
+                class="small-img"
+              />
+            </div>
+             <div class="small-img-col m-1">
+              <img
+                style="border-radius: 7px"
+                 :src="url+e.img2"
+                width="75%"
+                class="small-img"
+              />
+            </div>
+            <div class="small-img-col m-1">
+              <img
+                style="border-radius: 7px"
+                :src="url+e.img4"
+                width="93%"
+                class="small-img"
+              />
+            </div>
+            <div class="small-img-col m-1">
+              <img
+                style="border-radius: 7px"
+                :src="url+e.img5"
+                width="93%"
+                class="small-img"
+              />
+            </div>
+          </div>

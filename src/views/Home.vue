@@ -17,9 +17,9 @@
               <li>
                 <router-link to="/Cari">Cari</router-link>
               </li>
-              <li>
+              <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
-              </li>
+              </li> -->
               <li v-if="(this.id == null)">
                 <router-link to="/Login">Login</router-link>
               </li>

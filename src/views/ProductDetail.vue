@@ -6,6 +6,12 @@
         style="color: #28df99"
       ></v-progress-circular>
     </v-overlay>
+
+    <v-overlay :value="iShow" :opacity="0.8" @click="close()">
+      <div class="card">
+        <img :src="urlform" style="width: 500px" @click="close()" />
+      </div>
+    </v-overlay>
     <div class="my-header">
       <div class="my-container">
         <div class="my-navbar">
@@ -23,9 +29,9 @@
               <li>
                 <router-link to="/Cari">Cari</router-link>
               </li>
-              <li>
+              <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
-              </li>
+              </li> -->
               <li v-if="this.id == null">
                 <router-link to="/Login">Login</router-link>
               </li>
@@ -42,47 +48,54 @@
 
     <div class="my-small-container single-product">
       <div class="my-row overflow-auto">
-        <div class="my-col-2">
+        <div class="my-col-2" v-for="e in datas" :key="e">
+          <!-- FIRST IMAGE -->
           <img
-            src="../assets/images/mejatv2.png"
+            style="border-radius: 15px"
+            :src="url + e.img1"
             width="100%"
             id="ProductImg"
           />
-          <div class="small-img-row">
-            <div class="small-img-col">
-              <img
-                src="../assets/images/mejatv2.png"
-                width="100%"
-                class="small-img"
-              />
-            </div>
-            <div class="small-img-col">
-              <img
-                src="../assets/images/mejatv2.png"
-                width="100%"
-                class="small-img"
-              />
-            </div>
-            <div class="small-img-col">
-              <img
-                src="../assets/images/mejatv2.png"
-                width="100%"
-                class="small-img"
-              />
-            </div>
-            <div class="small-img-col">
-              <img
-                src="../assets/images/mejatv2.png"
-                width="100%"
-                class="small-img"
-              />
-            </div>
+          <!-- //main -->
+          <div class="row mt-3">
+            <img
+              class="ml-3"
+              style="border-radius: 13px"
+              :src="url + img2"
+              width="20%"
+              id="ProductImg"
+              @click="zoomImg(img2)"
+            />
+
+            <img
+              class="ml-4"
+              style="border-radius: 13px"
+              :src="url + e.img1"
+              width="20%"
+              id="ProductImg"
+              @click="zoomImg(img1)"
+            />
+            <!-- <img
+            class="ml-4"
+            style="border-radius: 13px"
+            :src="url+e.img3"
+            width="20%"
+            id="ProductImg"
+          />
+          <img
+            class="ml-3 fam"
+            style="border-radius: 13px"
+            :src="url+e.img3"
+            width="20%"
+            id="ProductImg"
+          /> -->
           </div>
         </div>
+
         <div class="my-col-2" v-for="data in datas" v-bind:key="data.id">
           <p>Kategori / {{ data.category }}</p>
-          <h1>{{ data.product_name }}</h1>
-          <span @click="store(data.store_name)">{{data.store_name}}</span>
+          <h2>{{ data.product_name }}</h2>
+          <span @click="store(data.store_name)">{{ data.store_name }}</span>
           <h4>Rp.{{ data.product_price }}</h4>
           <b-textarea
             v-model="description"
@@ -90,7 +103,7 @@
             class="txt-area-1 form-control"
           >
           </b-textarea>
-           <!-- <img src="../assets/images/wapng.png" style="width:50px !important"> -->
+          <!-- <img src="../assets/images/wapng.png" style="width:50px !important"> -->
           <b-textarea
             v-model="v_address"
             placeholder="Alamat Lengkap"
@@ -100,24 +113,34 @@
           <p v-show="alertAddress" style="color: red; font-size: 13px">
             * Mohon Isi Alamat Lengkap!
           </p>
-          <div style="height:10px;"></div>
-          <div style=
-          "margin-top:15px !important;
-          background:white;
-          border-style: solid;
-          border-width: thin;
-          border-radius:15px;
-          border-color:#dddddd !important;
-          height:35px !important;
-          width:180px !important;
-           margin:0px !important;">
-             <p class="text-center pwa"><img src="../assets/images/wapng.png" style="margin-bottom:2px;width:28px !important">{{data.telephone}}</p>
+          <div style="height: 10px"></div>
+          <div
+            style="
+              margin-top: 15px !important;
+              background: white;
+              border-style: solid;
+              border-width: thin;
+              border-radius: 15px;
+              border-color: #dddddd !important;
+              height: 35px !important;
+              width: 180px !important;
+              margin: 0px !important;
+            "
+          >
+            <p class="text-center pwa">
+              <img
+                src="../assets/images/wapng.png"
+                style="margin-bottom: 2px; width: 28px !important"
+              />{{ data.telephone }}
+            </p>
           </div>
           <Button @click="Buy()" class="btn">Pesan</Button>
           <h3>Deskripsi</h3>
-          <p>
-            {{ data.description }}
-          </p>
+          <div class="overflow-auto">
+            <p>
+              {{ data.description }}
+            </p>
+          </div>
         </div>
       </div>
     </div>
@@ -136,12 +159,29 @@ export default {
       alertAddress: false,
       datas: [],
       loading: false,
+      url: "http://localhost:8000/api/v1/src/",
+      img1: "",
+      img2: "",
+      img3: "",
+      img4: "",
+      img5: "",
+      iShow: false,
+      urlform: "",
     };
   },
   methods: {
-    store(e){
-     var url = "http://localhost:8080/s/" + e;
-     window.location.href = url;
+    zoomImg(props) {
+      this.iShow = true;
+      var src = "http://localhost:8000/api/v1/src/" + props;
+      this.urlform = src;
+      console.log(props);
+    },
+    close() {
+      this.iShow = false;
+    },
+    store(e) {
+      var url = "http://localhost:8080/s/" + e;
+      window.location.href = url;
     },
     setProduct(data) {
       this.datas = data;
@@ -177,13 +217,16 @@ export default {
         bodyFormData.append("img1", img1);
         bodyFormData.append("description", dscVal);
         bodyFormData.append("seller_telephone", telephone);
-        bodyFormData.append("visitor_telephone",localStorage.getItem('telephone'));
-        bodyFormData.append("visitor_name", localStorage.getItem('username'));
+        bodyFormData.append(
+          "visitor_telephone",
+          localStorage.getItem("telephone")
+        );
+        bodyFormData.append("visitor_name", localStorage.getItem("username"));
         bodyFormData.append("address_seller", address);
         bodyFormData.append("address_customer", this.v_address);
-        
-        if (localStorage.getItem("role_user") == "SELLER") {
-          this.$router.replace({ name: "Dashboard" });
+
+        if (this.id == null) {
+          this.$router.replace({ name: "Login" });
         } else {
           this.loading = true;
           await axios({
@@ -193,7 +236,7 @@ export default {
             headers: { "Content-Type": "multipart/form-data" },
           })
             .then((res) => {
-              console.log(res)
+              console.log(res);
               this.loading = false;
             })
             .catch(function (response) {
@@ -204,21 +247,33 @@ export default {
     },
   },
   mounted() {
-    this.loading = true
+    //this.loading = true;
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     axios
       .get(`${this.$api}Detail/` + this.$route.params.product_key)
-      .then((response) =>
-      this.setProduct(response.data),
-      this.loading = false
-      )
-      .catch((error) => console.log("Fail : ", error));
+      .then((response) => {
+        var i = 0;
+        var data = response.data;
+        this.setProduct(response.data);
+        for (i = 0; i < data.length; i++) {
+          var img1 = data[i].img1;
+          var img2 = data[i].img2;
+          var img3 = data[i].img3;
+          var img4 = data[i].img4;
+          var img5 = data[i].img5;
+        }
+        console.log(img1, img2, img3, img4, img5);
+        this.img1 = img1;
+        this.img2 = img2;
+
+        console.log(response);
+      });
   },
 };
 </script>
 <style scoped>
-.btn{
+.btn {
   margin: 0px !important;
   margin-top: 15px !important;
 }
@@ -231,8 +286,8 @@ export default {
   width: 25rem;
   height: 3rem;
 }
-.pwa{
-  margin-top:3px;
+.pwa {
+  margin-top: 3px;
 }
 @media only screen and (max-width: 800px) {
   .txt-area-1 .txt-area-2 {

@@ -13,8 +13,9 @@
               style="text-decoration: none !important"
             >
               <div class="card-body">
-                <img src="../../assets/images/mejatv2.png" />
+                <img :src="url+data.img1" />
                 <h6
+                  class="mt-2"
                   style="
                     color: #222831 !important;
                     font-weight: bold !important;
@@ -38,6 +39,7 @@ export default {
   data() {
     return {
       datas: [],
+      url:"http://localhost:8000/api/v1/src/"
     };
   },
   methods: {

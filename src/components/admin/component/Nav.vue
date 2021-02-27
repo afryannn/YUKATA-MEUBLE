@@ -14,6 +14,12 @@
         </button>
       </li>
       <li>
+        <button @click="toGuide()">
+          <span><i class="fas fa-tasks" style="color: white"></i></span>
+          <span style="color: white; margin-left: 8px">Guide</span>
+        </button>
+      </li>
+      <li>
         <button @click="toDashboard()">
           <span><i class="fas fa-chart-line" style="color:white"></i></span>
           <span style="color: white; margin-left: 8px">Dashboard</span>
@@ -54,6 +60,9 @@ export default {
   methods: {
     toEdit() {
       this.$router.replace({ name: "EditProduk" });
+    },
+    toGuide() {
+      this.$router.replace({ name: "Guide" });
     },
     toDelete() {
       this.$router.replace({ name: "Remove" });

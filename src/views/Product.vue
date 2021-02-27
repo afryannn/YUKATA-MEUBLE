@@ -23,9 +23,9 @@
               <li>
                 <router-link to="/Cari">Cari</router-link>
               </li>
-              <li>
+              <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
-              </li>
+              </li> -->
               <li v-if="this.id == null">
                 <router-link to="/Login">Login</router-link>
               </li>
@@ -40,13 +40,7 @@
         <div class="my-small-container">
           <div class="my-row row-2">
             <h2>All Products</h2>
-            <select>
-              <option>Default Shorting</option>
-              <option>Short by price</option>
-              <option>Short by popularity</option>
-              <option>Short by rating</option>
-              <option>Short by sale</option>
-            </select>
+           
           </div>
           <div class="my-row">
             <div class="my-col-4" v-for="data in datas" :key="data.id">
@@ -56,8 +50,9 @@
               >
               <router-link :to="'/Produk/'+data.product_key" style="text-decoration:none !important;">
                 <div class="card-body">
-                     <img src="../assets/images/mejatv2.png" />
+                     <img :src="url+data.img1" />
                   <h6
+                  class="mt-2"
                     style="
                       color: #222831 !important;
                       font-weight: bold !important;
@@ -92,6 +87,7 @@ export default {
       username: "",
       datas: [],
       loading: true,
+      url:"http://localhost:8000/api/v1/src/"
     };
   },
   methods: {
@@ -103,9 +99,10 @@ export default {
     this.loading = true
     axios
       .get(`${this.$api}list-produk2`)
-      .then((response) => 
-      this.setProduct(response.data.DATA))
-      this.loading = false
+      .then((response) => {
+        this.setProduct(response.data.DATA)
+        this.loading = false
+      });
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
   },

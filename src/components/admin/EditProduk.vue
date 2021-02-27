@@ -23,7 +23,7 @@
               <td>
                 <img
                   @click="overlay(e.product_key)"
-                  src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                  :src="src+e.img1"
                   style="width: 100px; height: 100px"
                 />
               </td>
@@ -31,7 +31,8 @@
                 <input type="text" v-model="e.product_name" />
               </td>
               <td>
-                <input type="text" name="names" v-model="e.description" />
+                <textarea name="names" v-model="e.description"></textarea>
+                <!-- <input type="text"  /> -->
               </td>
               <td>
                 <input type="number" name="names" v-model="e.product_price" />
@@ -95,7 +96,7 @@
             <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
-                  <img :src="prevImg1" class="fr-img-thumbnail" />
+                  <img :src="img1" class="fr-img-thumbnail" />
                 </div>
                 <div class="col" style="padding: 0 !important">
                   <div class="button-wrapper">
@@ -119,7 +120,7 @@
             <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
-                  <img :src="prevImg1" class="fr-img-thumbnail" />
+                  <img :src="img2" class="fr-img-thumbnail" />
                 </div>
                 <div class="col" style="padding: 0 !important">
                   <div class="button-wrapper">
@@ -143,7 +144,7 @@
             <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
-                  <img :src="prevImg1" class="fr-img-thumbnail" />
+                  <img :src="img3" class="fr-img-thumbnail" />
                 </div>
                 <div class="col" style="padding: 0 !important">
                   <div class="button-wrapper">
@@ -167,7 +168,7 @@
             <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
-                  <img :src="prevImg1" class="fr-img-thumbnail" />
+                  <img :src="img4" class="fr-img-thumbnail" />
                 </div>
                 <div class="col" style="padding: 0 !important">
                   <div class="button-wrapper">
@@ -191,7 +192,7 @@
             <div class="card-img-p">
               <div class="row">
                 <div class="col-6" style="padding: 0 !important">
-                  <img :src="prevImg1" class="fr-img-thumbnail" />
+                  <img :src="img5" class="fr-img-thumbnail" />
                 </div>
                 <div class="col" style="padding: 0 !important">
                   <div class="button-wrapper">
@@ -245,13 +246,11 @@ export default {
         { img4: "" },
         { img5: "" },
       ],
-      prev: [
-        { img1: "" },
-        { img2: "" },
-        { img3: "" },
-        { img4: "" },
-        { img5: "" },
-      ],
+      img1:"",
+      img2:"",
+      img3:"",
+      img4:"",
+      img5:"",
       select: [
         { img1: null },
         { img2: null },
@@ -270,6 +269,7 @@ export default {
       loading: false,
       loading2: false,
       slct: null,
+      src:"http://localhost:8000/api/v1/src/"
     };
   },
   methods: {
@@ -284,7 +284,7 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prev.img1 = e.target.result;
+          this.img1 = e.target.result;
           this.eImg1 = false;
         };
       } else {
@@ -302,7 +302,7 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prev.img2 = e.target.result;
+          this.img2 = e.target.result;
           this.eImg2 = false;
         };
       } else {
@@ -320,7 +320,7 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prev.img3 = e.target.result;
+          this.img3 = e.target.result;
           this.eImg3 = false;
         };
       } else {
@@ -338,7 +338,7 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prev.img4 = e.target.result;
+          this.img4 = e.target.result;
           this.eImg4 = false;
         };
       } else {
@@ -356,7 +356,7 @@ export default {
         let reader = new FileReader();
         reader.readAsDataURL(image);
         reader.onload = (e) => {
-          this.prev.img5 = e.target.result;
+          this.img5 = e.target.result;
           this.eImg5 = false;
         };
       } else {
@@ -480,6 +480,16 @@ export default {
       .then((response) => {
         this.loading = false
         this.items = response.data.DATA;
+        var data = response.data.DATA;
+        var i = 0;
+        var url = "http://localhost:8000/api/v1/src/";
+        for (i = 0; i <data.length; i++) {
+        this.img1 = url +data[i].img1
+        this.img2 = url +data[i].img2
+        this.img3 = url +data[i].img3
+        this.img4 = url +data[i].img4
+        this.img5 = url +data[i].img5
+      }
       })
   },
 };
@@ -544,3 +554,6 @@ export default {
   cursor: pointer;
 }
 </style>
+
+
+

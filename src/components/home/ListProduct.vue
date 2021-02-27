@@ -1,5 +1,6 @@
 <template>
   <div>
+     
     <h2 class="title">Daftar Produk</h2>
     <div class="my-small-container">
       <div class="my-row">

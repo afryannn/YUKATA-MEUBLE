@@ -19,24 +19,19 @@
             </p>
           </div>
           <div class="footer-col-3">
-            <h3>Gunakan Link</h3>
-            <ul>
-              <li>Blog</li>
-              <li>Pengaturan Policy</li>
-              <li>Gabung Affiliate</li>
-            </ul>
-          </div>
-          <div class="footer-col-4">
-            <h3>Ikuti Kami</h3>
+            <h3>Official</h3>
             <ul>
               <li>Facebook</li>
               <li>Twiter</li>
               <li>Instagram</li>
-              <li>Youtube</li>
             </ul>
           </div>
+          <div class="footer-col-4">
+            <h3>Alamat</h3>
+            <p class="text-center">Jln.Gebog-Nalumsari RT01 RW05 Ds.Karangnongko Kec.Nalumsari Kab.Jepara</p>
+          </div>
         </div>
-        <p class="copyright">Copyright 2020 - ADAJATI</p>
+        <p class="copyright">©{{ new Date().getFullYear() }} - YukataMeuble</p>
       </div>
     </div>
   </div>

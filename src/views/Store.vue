@@ -14,8 +14,9 @@
         box-shadow: 0px 5px 10px grey;
         border-radius: 0px;
         background-position: center;
+        background-repeat: space;
         background-size: cover;
-        height: 23rem;
+        height: 25rem;
       "
       :style="{
         backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${this.iBanner}')`,
@@ -23,7 +24,7 @@
     >
       <div class="container text-center">
         <h4 class="text-white mt-5"><b>TOKO</b></h4>
-        <h1 style="color: #28df99">SIRAJ MEUBLE</h1>
+        <h1 style="color: #28df99">{{this.name}}</h1>
       </div>
     </div>
     <div class="container">
@@ -34,8 +35,8 @@
             <div class="col text-center">
               <img
                 class="rounded-circle"
-                :src="this.iProfil"
-                width="50%"
+                :src="iProfil"
+                width="30%"
                 style="margin-top: 50px"
               />
             </div>
@@ -46,27 +47,25 @@
                     <td style="width: 100px !important; color: #28df99">
                       <b>Nama Toko</b>
                     </td>
-                    <td>SIRAJ MEUBLE</td>
+                    <td>{{this.name}}</td>
                   </tr>
                   <tr style="background: none">
                     <td style="width: 100px !important; color: #28df99">
                       <b>Telephone</b>
                     </td>
-                    <td>08970025959</td>
+                    <td>{{this.tlp}}</td>
                   </tr>
                   <tr style="background: none">
                     <td style="color: #28df99"><b>Alamat</b></td>
                     <td>
-                      I was still getting a border along the bottom of the table
-                      until I added .table-borderless, to the beginning of this
-                      style specification. – Christopher King Jun 8 '16 at 15:28
+                     {{this.addrs}}
                     </td>
                   </tr>
                   <tr style="background: none">
                     <td style="width: 130px !important; color: #28df99">
                       <b>jumlah produk</b>
                     </td>
-                    <td>15</td>
+                    <td>{{this.count}}</td>
                   </tr>
                 </tbody>
               </table>
@@ -77,18 +76,9 @@
 
       <div class="card mt-5 shadow" style="border-radius: 20px">
         <div class="card-body text-center">
-          <h3 class="mt-3" style="color: #28df99">Deskripsi</h3>
+          <h3 class="mt-3 text-xs-center" style="color: #28df99">Deskripsi</h3>
           <p class="mt-3">
-            It is a long established fact that a reader will be distracted by
-            the readable content of a page when looking at its layout. The point
-            of using Lorem Ipsum is that it has a more-or-less normal
-            distribution of letters, as opposed to using 'Content here, content
-            here', making it look like readable English. Many desktop publishing
-            packages and web page editors now use Lorem Ipsum as their default
-            model text, and a search for 'lorem ipsum' will uncover many web
-            sites still in their infancy. Various versions have evolved over the
-            years, sometimes by accident, sometimes on purpose (injected humour
-            and the like).
+            {{this.desc}}
           </p>
         </div>
       </div>
@@ -108,13 +98,13 @@
                 <img
                   style="height: 150px; width: 150px; margin-left: 30px"
                   class="card-img-top"
-                  src="../assets/images/mejatv2.png"
+                  :src="url+e.img1"
                   alt="Card image cap"
                 />
                 <div class="card-body">
-                  <h5 class="card-title" style="color: #28df99">
+                  <h7 class="card-title" style="color: #28df99">
                     {{ e.product_name }}
-                  </h5>
+                  </h7>
                   <p class="card-text">Rp.{{ e.product_price }}</p>
                   <center>
                     <span
@@ -147,10 +137,15 @@ export default {
   },
   data() {
     return {
-      iProfil: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
-      iBanner:
-        "https://i.pinimg.com/originals/df/6c/f3/df6cf34bde9aac77b3629846f6eaf481.jpg",
-      profils: [],
+      iProfil: "http://localhost:8000/api/v1/mediastore/logoadjt.png",
+      url:"http://localhost:8000/api/v1/src/",
+      iBanner:'',
+      name:'',
+      address:'',
+      tlp:'',
+      desc:'',
+      addrs:'',
+      count:'',
       items: [],
       main:false,
       found:false,
@@ -171,6 +166,18 @@ export default {
       if (response.data.MESSAGE == "SUCCESS") {
         var profil = response.data.STORE;
         var produk = response.data.PRODUK;
+        var i = 0;
+        for(i = 0; i<profil.length; i++){
+         this.name = profil[i].name
+         this.desc = profil[i].description
+         this.tlp  = profil[i].telephone
+         this.addrs = profil[i].address
+         var b = profil[i].imgBanner
+        }
+        //console.log(this.profils.name)
+        var src = "http://localhost:8000/api/v1/mediastore/"+b;
+        this.iBanner = src
+        this.count = response.data.COUNT
         this.profils = profil;
         this.items = produk;
         this.main = true
