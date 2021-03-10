@@ -18,7 +18,7 @@
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
-            <h6 style="color: #28df99">Hapus Produk</h6>
+          <h6 style="color: #28df99">Produk Toko</h6>
         </div>
         <div class="fr-social-icons">
           <span class="ti-bell"></span>
@@ -29,36 +29,6 @@
 
       <!--------------------START CONTENT---------------------->
       <main>
-          <!-- <div class="row">
-          <div v-for="e in items" v-bind:key="e.id">
-            <div class="card" style="width: 12rem; margin: 10px; height:430px">
-              <img
-                class="card-img-top"
-                :src="img+e.img1"
-                alt="Card image cap"
-              />
-              <div class="card-body">
-                <strong class="card-title">{{ e.product_name }}</strong><br>
-                <p style="margin:0 !important;">Harga : {{ e.product_price }}</p>
-                <p>Kategori : {{ e.category }}</p>
-                <center>
-                  <button
-                    @click="go(e.product_key)"
-                    style="
-                      width: 150px;
-                      background: red;
-                      height: 35px;
-                      border-radius: 5px;
-                      color:white;
-                    "
-                  >
-                    Hapus
-                  </button>
-                </center>
-              </div>
-            </div>
-          </div>
-        </div> -->
         <div class="card">
           <div class="card-body">
             <div class="my-small-container">
@@ -75,7 +45,10 @@
                       box-shadow: 0 1px 4px 0 rgba(0, 0, 0, 0.2);
                     "
                   >
-             
+                    <router-link
+                      :to="'/Produk/' + data.product_key"
+                      style="text-decoration: none !important"
+                    >
                       <div class="card-body">
                         <img :src="img + data.img1" />
                         <h6
@@ -87,9 +60,10 @@
                         >
                           {{ data.product_name }}
                         </h6>
-                        <p>Rp.{{ data.product_price }}</p>
-                        <center><button @click="go(data.product_key)"><i class="fas fa-trash text-danger"></i></button></center>
+                        <p>{{ data.name }}<br />Rp.{{ data.product_price }}</p>
+                  
                       </div>
+                    </router-link>
                   </div>
                 </div>
               </div>
@@ -104,33 +78,17 @@
 </template>
 <script>
 import Nav from "../../components/admin/component/Nav";
-import axios from 'axios'
+import axios from "axios";
+
 export default {
   components: {
     Nav,
-    
   },
-    data() {
+  data() {
     return {
       items: [],
-      img : ''
+      img: "",
     };
-  },
-  methods: {
-    go(data) {
-      var bodyFormData = new FormData();
-      bodyFormData.append("key_product", data);
-      axios({
-        method: "post",
-        url: `${this.$api}delete-produk`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then(() => {
-          this.$router.replace({ name: "Dashboard" });
-        })
-        .catch(function () {});
-    },
   },
   mounted() {
     var bodyFormData = new FormData();
@@ -140,13 +98,19 @@ export default {
       url: `${this.$api}all-store-produk`,
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((response) => {
-        this.items = response.data.DATA;
-        this.img = `${this.$api}src/`;
-      })
+    }).then((response) => {
+      this.items = response.data.DATA;
+      this.img = `${this.$api}src/`;
+    });
   },
 };
 </script>
 <style scoped>
+.dot {
+  height: 10px;
+  width: 10px;
+  background-color: #28df99;
+  border-radius: 50%;
+  display: inline-block;
+}
 </style>

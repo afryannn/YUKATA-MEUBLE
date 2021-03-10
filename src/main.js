@@ -18,6 +18,8 @@ import './assets/style.js'
 import vuetify from './plugins/vuetify';
 
 Vue.prototype.$api = "http://localhost:8000/api/";
+Vue.prototype.$src = "http://localhost:8000/api/v1/src/";
+
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
 Vue.component('v-select', vSelect)

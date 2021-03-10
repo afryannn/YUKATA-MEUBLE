@@ -7,8 +7,14 @@
           <span style="color: white; margin-left: 8px">Home</span>
         </button>
       </li>
+        <li>
+        <button @click="toStore()">
+          <span><i class="fas fa-store" style="color: white"></i></span>
+          <span style="color: white; margin-left: 8px">Toko</span>
+        </button>
+      </li>
       <li>
-        <button>
+        <button @click="toProduk()">
           <span><i class="fas fa-table" style="color:white"></i></span>
           <span style="color: white; margin-left: 8px">Produk</span>
         </button>
@@ -61,6 +67,18 @@ export default {
     toEdit() {
       this.$router.replace({ name: "EditProduk" });
     },
+    toStore(){
+         var name = localStorage.getItem('store');
+        if(name == '')
+           {
+               console.log('err');
+           }
+              location.href = "http://localhost:8080/s/"+name;
+
+    },
+    toProduk(){
+      this.$router.replace({ name: "MyProduk" });
+    },
     toGuide() {
       this.$router.replace({ name: "Guide" });
     },
@@ -68,7 +86,7 @@ export default {
       this.$router.replace({ name: "Remove" });
     },
     toDashboard() {
-      this.$router.replace({ name: "Dashboard" });
+     location.href = "http://localhost:8080/Dashboard";
     },
     toHome() {
       this.$router.replace({ name: "Home" });

@@ -17,8 +17,7 @@
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
-          <span class="ti-search"></span>
-          <input type="search" placeholder="Search" />
+          <h6 style="color: #28df99">Produk Baru</h6>
         </div>
         <div class="fr-social-icons">
           <span class="ti-bell"></span>

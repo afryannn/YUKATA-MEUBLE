@@ -1,5 +1,11 @@
 <template>
   <div>
+     <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <!--------------------NAVBAR---------------------->
     <input type="checkbox" id="sidebar-toggle" />
     <div class="fr-sidebar">
@@ -55,7 +61,8 @@ export default {
      return{
        compMain:false,
        compForm:false,
-       btnStore:false
+       btnStore:false,
+       loading:false
      }
    },
   methods: {
@@ -77,7 +84,7 @@ export default {
     },
   },
   mounted(){
-    console.log('mounted');
+     this.loading = true
      var bodyFormData = new FormData();
       bodyFormData.append("user_id",localStorage.getItem("user-id"));
     axios({
@@ -89,7 +96,8 @@ export default {
         .then((response) => {
           if(response.data.MESSAGE == "ERROR"){
             this.compMain = true
-            console.log(localStorage.getItem('user-id'));
+            // console.log(localStorage.getItem('user-id'));
+            this.loading = false
           }else{
             this.compMain = false
             this.btnStore = true

@@ -31,7 +31,7 @@
                 <input type="text" v-model="e.product_name" />
               </td>
               <td>
-                <textarea name="names" v-model="e.description"></textarea>
+                <textarea  style="height:100px; width:200px" name="names" v-model="e.description"></textarea>
                 <!-- <input type="text"  /> -->
               </td>
               <td>

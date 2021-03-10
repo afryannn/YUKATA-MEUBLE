@@ -24,7 +24,7 @@
               />
               <div class="card-body">
                 <h5 class="card-title">{{ e.product_name }}</h5>
-                <p class="card-text">Harga : {{ e.product_price }}</p>
+                <p class="card-text">Hargasdd : {{ e.product_price }}</p>
                 <p class="card-text">Kategori : {{ e.category }}</p>
                 <center>
                   <button

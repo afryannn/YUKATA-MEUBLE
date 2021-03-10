@@ -1,12 +1,18 @@
 <template>
   <div>
+     <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="fr-dash-cards">
       <div class="fr-card-single">
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
             <h5 >Jumlah Produk</h5>
-            <h4 class="text-center">4</h4>
+            <h4 class="text-center">{{this.jProduk}}</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -18,8 +24,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Jumlah Transaksi</h5>
-            <h4 class="text-center">5</h4>
+            <h5>Jumlah Pesanan</h5>
+            <h4 class="text-center">{{this.jPesanan}}</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -31,8 +37,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Transaksi Sukse</h5>
-            <h4 class="text-center">1</h4>
+            <h5>Pesanan Sukses</h5>
+            <h4 class="text-center">{{this.jSuccess}}</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -108,6 +114,10 @@ export default {
   data() {
     return {
       transactions: [],
+      jProduk:'',
+      jPesanan:'',
+      jSuccess:'',
+      loading:false
     };
   },
   methods: {
@@ -124,7 +134,8 @@ export default {
     },
   },
   mounted() {
-      console.log(localStorage.getItem('storeId'));
+      // console.log(localStorage.getItem('storeId'));
+      this.loading = true
       var id = localStorage.getItem('user-id');
       var bodyFormData = new FormData();
       bodyFormData.append("id",id);
@@ -136,11 +147,22 @@ export default {
       })
         .then((response) => {
           this.setTransaction(response.data.DATA);
-         
+          this.loading = false
         })
-        .catch(function (response) {
-          console.log(response);
-        });
+     var TbodyFormData = new FormData();
+      TbodyFormData.append("user_id",id);
+        axios({
+        method: "post",
+        url: `${this.$api}count-product`,
+        data: TbodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      })
+        .then((response) => {
+          localStorage.setItem("store",response.data.DATA.BY_STORE);
+          this.jProduk = response.data.DATA.J_PRODUK
+          this.jPesanan = response.data.DATA.J_TRNS
+          this.jSuccess = response.data.DATA.J_SUCCS
+        })
     },
 };
 </script>

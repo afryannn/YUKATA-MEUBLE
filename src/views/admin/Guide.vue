@@ -18,8 +18,7 @@
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
-          <span class="ti-search"></span>
-          <input type="search" placeholder="Search" />
+          <h6 style="color: #28df99">Tips Dan Trik Upload Produk</h6>
         </div>
         <div class="fr-social-icons">
           <span class="ti-bell"></span>
@@ -35,19 +34,25 @@
             <h3 class="text-center" style="color: #28df99">Guide Seller</h3>
             <div class="container mt-4">
               <div class="class-guide">
-                <h5 class="text-secondary">Petunjuk Data Produk</h5>
+                <h5 class="text-secondary">Peraturan Upload Data Produk</h5>
                 <div class="row mt-2 ml-1">
                   <table class="table table-borderless">
                     <tbody>
                       <tr style="background: none">
                         <td style="width: 1px !important; color: #28df99">
                           <span class="dot"></span>
+                          <span class="dot"></span>
+            
                         </td>
                         <td>
-                          <p>
+                          <p style="margin:0 !important;">
                             Judul harus sesuai nama produk yang anda punya di
                             gudang
                           </p>
+                           <p style="margin:0 !important;">
+                            Deskripsi Di peruntukan untuk memberi detail data produk.
+                          </p>
+                     
                         </td>
                       </tr>
                     </tbody>
@@ -65,8 +70,10 @@
                           <span class="dot"></span>
                         </td>
                         <td>
-                          <p>
-                            Ukuran Gambar Produk Harus <b style="color: #28df99">54px</B> <b>X</b> <b style="color: #28df99">54px</b>
+                          <p style="margin:0 !important;">
+                            Ukuran Banner Toko Harus <b style="color: #28df99">1630px</B> <b>X</b> <b style="color: #28df99">458px</b><br><br>
+                            <img class="shadow" width="40%" src="http://localhost:8000/api/v1/mediastore/templateBanner.png"><br><br>
+                             Klik Untuk <a href="#"><b style="color: #28df99">Unduh</b></a>
                           </p>
                         </td>
                       </tr>

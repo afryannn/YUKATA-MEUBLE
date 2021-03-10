@@ -12,6 +12,7 @@ import Search from '../views/Search.vue'
 import UserProfil from '../views/UserProfil'
 import NewStore from '../views/admin/NewStore.vue'
 import Logout from '../views/Logout.vue'
+import Myproduct from '../views/admin/MyProduct.vue'
 import ProductDetail from '../views/ProductDetail.vue'
 import EditProduk from '../views/admin/EditProduk.vue'
 import Guide from '../views/admin/Guide.vue'
@@ -66,6 +67,11 @@ const routes = [
         path: '/Register',
         name: 'Register',
         component: Register
+    },
+    {
+        path: '/Store?produk',
+        name: 'MyProduk',
+        component: Myproduct
     },
     {
         path: '/Guide',

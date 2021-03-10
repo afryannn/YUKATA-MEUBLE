@@ -64,35 +64,37 @@
               :src="url + img2"
               width="20%"
               id="ProductImg"
-              @click="zoomImg(img2)"
+              @click="zoomImg(e.img2)"
             />
 
             <img
               class="ml-4"
               style="border-radius: 13px"
-              :src="url + e.img1"
+              :src="url + e.img3"
               width="20%"
               id="ProductImg"
-              @click="zoomImg(img1)"
+              @click="zoomImg(e.img3)"
             />
-            <!-- <img
+            <img
             class="ml-4"
             style="border-radius: 13px"
-            :src="url+e.img3"
+            :src="url+e.img4"
             width="20%"
             id="ProductImg"
+            @click="zoomImg(e.img4)"
           />
           <img
             class="ml-3 fam"
             style="border-radius: 13px"
-            :src="url+e.img3"
+            :src="url+e.img5"
             width="20%"
             id="ProductImg"
-          /> -->
+            @click="zoomImg(e.img5)"
+          />
           </div>
         </div>
 
-        <div class="my-col-2" v-for="data in datas" v-bind:key="data.id">
+        <div class="my-col-2 overflow-auto" style="height:38rem; " v-for="data in datas" v-bind:key="data.id">
           <p>Kategori / {{ data.category }}</p>
           <h2>{{ data.product_name }}</h2>
           <span @click="store(data.store_name)">{{ data.store_name }}</span>
@@ -131,15 +133,16 @@
               <img
                 src="../assets/images/wapng.png"
                 style="margin-bottom: 2px; width: 28px !important"
-              />{{ data.telephone }}
+              />
+              <a href="https://api.whatsapp.com/send?phone=6285740151761&text=Apakah Produk Ini Tersedia?">{{data.telephone}}</a>
             </p>
           </div>
           <Button @click="Buy()" class="btn">Pesan</Button>
           <h3>Deskripsi</h3>
           <div class="overflow-auto">
-            <p>
+            <div style=" white-space: pre-line">
               {{ data.description }}
-            </p>
+            </div>
           </div>
         </div>
       </div>
@@ -149,7 +152,11 @@
 
 <script>
 import axios from "axios";
+
 export default {
+  components:{
+ 
+  },
   data() {
     return {
       id: "",
@@ -191,7 +198,7 @@ export default {
       var description = this.description;
       let dscVal = "";
       if (description == "") {
-        dscVal = "Null";
+        dscVal = "Kosong";
       } else {
         dscVal = this.description;
       }
@@ -239,9 +246,6 @@ export default {
               console.log(res);
               this.loading = false;
             })
-            .catch(function (response) {
-              console.log(response);
-            });
         }
       }
     },
@@ -273,6 +277,13 @@ export default {
 };
 </script>
 <style scoped>
+.overflow-auto::-webkit-scrollbar {
+  display: none;
+}
+.overflow-auto{
+   -ms-overflow-style: none; 
+  scrollbar-width: none;  
+}
 .btn {
   margin: 0px !important;
   margin-top: 15px !important;

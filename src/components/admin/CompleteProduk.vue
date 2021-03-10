@@ -22,6 +22,7 @@
       class="text-green"
       v-model="valProductStock"
       label="Stok"
+       type="number"
     ></v-text-field>
     <p v-show="eStock" style="color: red; font-size: 13px">* Stok Kosong!</p>
     <p style="margin-top: 10px">Gambar 1</p>
@@ -152,6 +153,10 @@
       * Gambar Harus Berformat PNG,JPG,JPEG!!
     </p>
 
+    <p v-show="nImg" style="color: red; font-size: 13px">
+      * Mohon Lengkapi Gambar Yang Kosong!! 
+    </p>
+
     <v-btn class="mr-4 btn-green" @click="Save()" style="margin-top: 20px"
       >Simpan</v-btn
     >
@@ -196,6 +201,11 @@ export default {
       ifAllow: true,
       emptyImg1: false,
       ifEmpty: true,
+      ifEmpty2: true,
+      ifEmpty3: true,
+      ifEmpty4: true,
+      ifEmpty5: true,
+      nImg : false
     };
   },
   methods: {
@@ -235,9 +245,11 @@ export default {
         reader.onload = (e) => {
           this.prevImg2 = e.target.result;
           this.eImg2 = false;
+          this.ifEmpty2 = false
         };
       } else {
         this.eImg2 = true;
+        this.ifEmpty2 = false
       }
     },
     onFileSelected3(event) {
@@ -253,9 +265,11 @@ export default {
         reader.onload = (e) => {
           this.prevImg3 = e.target.result;
           this.eImg3 = false;
+          this.ifEmpty3 = false
         };
       } else {
         this.eImg3 = true;
+        this.ifEmpty3 = false
       }
     },
     onFileSelected4(event) {
@@ -271,9 +285,13 @@ export default {
         reader.onload = (e) => {
           this.prevImg4 = e.target.result;
           this.eImg4 = false;
+          this.ifEmpty4 = false
+
         };
       } else {
         this.eImg4 = true;
+        this.ifEmpty4 = false
+
       }
     },
 
@@ -290,17 +308,39 @@ export default {
         reader.onload = (e) => {
           this.prevImg5 = e.target.result;
           this.eImg5 = false;
+          this.ifEmpty5 = false
         };
       } else {
         this.eImg5 = true;
+        this.ifEmpty5 = false
+
       }
     },
     //END
     async Save() {
       this.loading = true
-      if (this.ifEmpty == true) {
-        console.log("Kosong");
-        this.emptyImg1 = true;
+      if(this.valProductDesc == ''){
+        this.eDesc = true 
+        this.loading = false
+      }
+      if(this.valProductPrice == ''){
+        this.ePrice = true
+        this.loading = false
+      }
+      if(this.valProductStock == ''){
+        this.eStock = true
+        this.loading = false
+      }
+
+
+      if (this.ifEmpty == true ||
+          this.ifEmpty2 == true||
+          this.ifEmpty3 == true ||
+          this.ifEmpty4 ==true  ||
+          this.ifEmpty5 == true
+         ) {
+        this.nImg = true;
+        this.loading = false
       } else {
         this.emptyImg1 = false;
         if (
@@ -308,13 +348,11 @@ export default {
           this.eImg2 == true ||
           this.eImg3 == true ||
           this.eImg4 == true ||
-          this.eImg5 == true ||
-          this.valProductDesc == "" ||
-          this.valProductStock == "" ||
-          this.valProductPrice == ""
+          this.eImg5 == true
         ) {
           console.log("Err");
         } else {
+      
           var bodyFormData = new FormData();
           bodyFormData.append(
             "key_product",
@@ -343,6 +381,8 @@ export default {
             console.log(response);
           });
         }
+     
+
       }
     },
   },

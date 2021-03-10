@@ -4,8 +4,7 @@
     <div class="fr-main-content">
       <header>
         <div class="fr-search-wrapper">
-          <span class="ti-search"></span>
-          <input type="search" placeholder="Search" />
+        
         </div>
         <div class="fr-social-icons">
           <span class="ti-bell"></span>

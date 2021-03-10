@@ -1,10 +1,12 @@
 <template>
   <div>
-     <v-overlay :value="loading" :opacity="0.90">
+     <v-overlay :value="loading" :opacity="1" color="#fff">
+   
       <v-progress-circular
         indeterminate
         style="color: #28df99"
       ></v-progress-circular>
+
     </v-overlay>
     <div class="my-header">
       <div class="my-container">
@@ -26,11 +28,16 @@
               <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
               </li> -->
-              <li v-if="this.id == null">
+             <li v-if="(this.id == null)">
                 <router-link to="/Login">Login</router-link>
               </li>
               <li v-else>
-                <router-link to="/About">{{ this.username }}</router-link>
+                <div v-if="(this.role == 'SELLER')">
+                  <router-link to="/Dashboard">Dashboard</router-link>
+                </div>
+                <div v-else>
+                  <router-link to="/user">{{this.username}}</router-link>
+                </div>
               </li>
             </ul>
           </nav>
@@ -86,6 +93,7 @@ export default {
       id: "",
       username: "",
       datas: [],
+      role:'',
       loading: true,
       url:"http://localhost:8000/api/v1/src/"
     };
@@ -104,6 +112,7 @@ export default {
         this.loading = false
       });
     this.id = localStorage.getItem("user-id");
+    this.role = localStorage.getItem("role_user");
     this.username = localStorage.getItem("username");
   },
 };

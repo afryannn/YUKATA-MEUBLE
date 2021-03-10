@@ -9,10 +9,10 @@
           <nav>
             <ul id="MenuItems">
               <li>
-                <router-link to="/" class="hover-c">Home</router-link>
+                <router-link to="/" class="hover-c" style="text-decoration:none;">Home</router-link>
               </li>
               <li>
-                <router-link to="/Produk">Produk</router-link>
+                <router-link to="/Produk" >Produk</router-link>
               </li>
               <li>
                 <router-link to="/Cari">Cari</router-link>

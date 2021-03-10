@@ -1,6 +1,6 @@
 <template>
   <div>
-      <v-overlay :value="loading" :opacity="0.90">
+      <v-overlay :value="loading" :opacity="1" color="#fff">
       <v-progress-circular
         indeterminate
         style="color: #28df99"
@@ -36,8 +36,8 @@
               <img
                 class="rounded-circle"
                 :src="iProfil"
-                width="30%"
-                style="margin-top: 50px"
+                width="50%"
+                style="margin-top: 0px"
               />
             </div>
             <div class="col-8">
@@ -122,6 +122,7 @@
         <div class="mt-5"></div>
       </div>
     </div>
+    <Flt/>
     <Footer />
     </div>
   </div>
@@ -130,14 +131,16 @@
 import axios from "axios";
 import Footer from "../components/Footer.vue";
 import Found from "../components/sNotFound";
+import Flt from "../components/Floating";
 export default {
   components: {
     Footer,
-    Found
+    Found,
+    Flt
   },
   data() {
     return {
-      iProfil: "http://localhost:8000/api/v1/mediastore/logoadjt.png",
+      iProfil: "http://localhost:8000/api/v1/mediastore/profilsrj.jpg",
       url:"http://localhost:8000/api/v1/src/",
       iBanner:'',
       name:'',
