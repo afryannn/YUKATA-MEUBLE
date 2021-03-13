@@ -122,7 +122,7 @@
         <div class="mt-5"></div>
       </div>
     </div>
-    <Flt/>
+ 
     <Footer />
     </div>
   </div>
@@ -131,12 +131,12 @@
 import axios from "axios";
 import Footer from "../components/Footer.vue";
 import Found from "../components/sNotFound";
-import Flt from "../components/Floating";
+
 export default {
   components: {
     Footer,
     Found,
-    Flt
+    
   },
   data() {
     return {

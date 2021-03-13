@@ -7,33 +7,32 @@
             <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
-            <ul id="MenuItems">
+            <ul v-show="mItem">
               <li>
                 <router-link to="/" class="hover-c" style="text-decoration:none;">Home</router-link>
               </li>
               <li>
-                <router-link to="/Produk" >Produk</router-link>
+                <router-link to="/Produk" class="router-link">Produk</router-link>
               </li>
               <li>
-                <router-link to="/Cari">Cari</router-link>
+                <router-link to="/Cari" class="router-link">Cari</router-link>
               </li>
               <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
               </li> -->
               <li v-if="(this.id == null)">
-                <router-link to="/Login">Login</router-link>
+                <router-link to="/Login" class="router-link">Login</router-link>
               </li>
               <li v-else>
                 <div v-if="(this.role == 'SELLER')">
-                  <router-link to="/Dashboard">Dashboard</router-link>
+                  <router-link to="/Dashboard" class="router-link">Dashboard</router-link>
                 </div>
                 <div v-else>
-                  <router-link to="/user">{{this.username}}</router-link>
+                  <router-link to="/user" class="router-link">{{this.username}}</router-link>
                 </div>
               </li>
             </ul>
           </nav>
-          <!-- <img src="../assets/images/cart.png" width="30px" height="30px"/> -->
           <img
             src="../assets/images/menu.png"
             class="menu-icon"
@@ -90,11 +89,14 @@ export default {
       id: "",
       username: "",
       role: "",
-      loading:false
+      loading:false,
+      mItem:true
       // Nav:false
     };
   },
   mounted() {
+    this.mItem = true
+    window.addEventListener("resize", this.myEventHandler);
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role_user");
@@ -102,31 +104,23 @@ export default {
   },
   methods: {
     menutoggle() {
-       //   var MenuItems = document.getElementById("MenuItems");
-      // // this.Nav = true
-      // if(this.Nav == false){
-      //   this.Nav = true
-      // }else if(this.Nav == true){
-      //   this.Nav = false
-      // }
-    //   var MenuItems = document.getElementById("MenuItems");
-    //  // var click = false;
-    //   if(MenuItems){
-    //     MenuItems.style.maxHeight = "0px";
-    //     console.log(MenuItems);
-    //   }else{
-    //     MenuItems.style.maxHeight = "200px";
-    //   }
-    //   if (click == true) {
-    //     MenuItems.style.maxHeight = "200px";
-    //     console.log("knjibn");
-    //   }
-    //    else {
-    //     console.log("haha");
-    //     MenuItems.style.maxHeight = "0px";
-    //   }
+        this.mItem = !this.mItem;
     },
+
+    myEventHandler() {
+      var x = window.matchMedia("(max-width: 800px)")
+      var b = window.matchMedia("(min-width: 800px)")
+        if(b.matches){
+        this.mItem = true
+      }
+      if(x.matches){
+        this.mItem = false
+      }
+    }
   },
+  created(){
+    this.menutoggle();
+  }
 
 };
 </script>
@@ -137,5 +131,8 @@ export default {
   border-radius: 30px;
   padding: 8px 30px;
   color: white;
+}
+.router-link{
+  text-decoration: none !important;
 }
 </style>

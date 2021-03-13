@@ -7,12 +7,12 @@
             <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
-            <ul id="MenuItems">
+            <ul v-show="mItem">
               <li>
-                <router-link to="/">Home</router-link>
+                <router-link to="/" class="router-link">Home</router-link>
               </li>
               <li>
-                <router-link to="/Produk">Produk</router-link>
+                <router-link to="/Produk" class="router-link">Produk</router-link>
               </li>
               <li>
                 <router-link to="/Cari" class="hover-c">Cari</router-link>
@@ -21,17 +21,20 @@
                 <router-link to="/Tentang">Tentang</router-link>
               </li> -->
               <li v-if="this.id == null">
-                <router-link to="/Login">Login</router-link>
+                <router-link to="/Login" class="router-link">Login</router-link>
               </li>
               <li v-else>
-                <router-link to="/About">{{ this.username }}</router-link>
+                <router-link to="/user" class="router-link">{{ this.username }}</router-link>
               </li>
             </ul>
           </nav>
-          <!-- <img src="../assets/images/cart.png" width="30px" height="30px"/> -->
-          <img src="../assets/images/menu.png" class="menu-icon" />
+            <img
+            src="../assets/images/menu.png"
+            class="menu-icon"
+            @click="menutoggle()"
+          />
         </div>
-        <div class="my-small-container">
+        <div class="my-small-container type-Rs">
           <div class="my-row row-2">
             <p></p>
             <div class="input-group flex-nowrap">
@@ -63,7 +66,7 @@
           </div>
           <h3 class="text-center">Hasil Produk</h3>
 
-          <div class="my-row">
+          <div class="my-row pr">
             <div
               v-show="isEmpty"
               class="my-col-4"
@@ -126,6 +129,7 @@ export default {
       loading: false,
       isEmpty: true,
       url:"http://localhost:8000/api/v1/src/",
+      mItem:true
     };
   },
   methods: {
@@ -159,8 +163,24 @@ export default {
         });
       }
     },
+    menutoggle() {
+        this.mItem = !this.mItem;
+    },
+
+    myEventHandler() {
+      var x = window.matchMedia("(max-width: 800px)")
+      var b = window.matchMedia("(min-width: 800px)")
+        if(b.matches){
+        this.mItem = true
+      }
+      if(x.matches){
+        this.mItem = false
+      }
+    }
   },
   mounted() {
+    this.mItem = true
+    window.addEventListener("resize", this.myEventHandler);
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
   },
@@ -173,5 +193,8 @@ export default {
   border-radius: 30px;
   padding: 8px 30px;
   color: white;
+}
+.router-link{
+  text-decoration: none !important;
 }
 </style>

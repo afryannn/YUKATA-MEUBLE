@@ -15,38 +15,41 @@
             <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
-            <ul id="MenuItems">
+            <ul v-show="mItem">
               <li>
-                <router-link to="/">Home</router-link>
+                <router-link to="/" class="router-link">Home</router-link>
               </li>
-              <li>
+              <li style="text-decoration:none;">
                 <router-link to="/Produk" class="hover-c">Produk</router-link>
               </li>
               <li>
-                <router-link to="/Cari">Cari</router-link>
+                <router-link to="/Cari"  class="router-link">Cari</router-link>
               </li>
               <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
               </li> -->
              <li v-if="(this.id == null)">
-                <router-link to="/Login">Login</router-link>
+                <router-link to="/Login" class="router-link">Login</router-link>
               </li>
-              <li v-else>
+              <li v-else  class="router-link">
                 <div v-if="(this.role == 'SELLER')">
-                  <router-link to="/Dashboard">Dashboard</router-link>
+                  <router-link to="/Dashboard" class="router-link">Dashboard</router-link>
                 </div>
                 <div v-else>
-                  <router-link to="/user">{{this.username}}</router-link>
+                  <router-link to="/user" class="router-link">{{this.username}}</router-link>
                 </div>
               </li>
             </ul>
           </nav>
-          <!-- <img src="../assets/images/cart.png" width="30px" height="30px"/> -->
-          <img src="../assets/images/menu.png" class="menu-icon" />
+           <img
+            src="../assets/images/menu.png"
+            class="menu-icon"
+            @click="menutoggle()"
+          />
         </div>
         <div class="my-small-container">
           <div class="my-row row-2">
-            <h2>All Products</h2>
+            <h2>Semua Produk</h2>
            
           </div>
           <div class="my-row">
@@ -95,16 +98,34 @@ export default {
       datas: [],
       role:'',
       loading: true,
-      url:"http://localhost:8000/api/v1/src/"
+      url:"http://localhost:8000/api/v1/src/",
+      mItem:true
+
     };
   },
   methods: {
     setProduct(data) {
       this.datas = data;
     },
+     menutoggle() {
+        this.mItem = !this.mItem;
+    },
+
+    myEventHandler() {
+      var x = window.matchMedia("(max-width: 800px)")
+      var b = window.matchMedia("(min-width: 800px)")
+        if(b.matches){
+        this.mItem = true
+      }
+      if(x.matches){
+        this.mItem = false
+      }
+    }
   },
   mounted() {
+    this.mItem = true
     this.loading = true
+    window.addEventListener("resize", this.myEventHandler);
     axios
       .get(`${this.$api}list-produk2`)
       .then((response) => {
@@ -115,6 +136,9 @@ export default {
     this.role = localStorage.getItem("role_user");
     this.username = localStorage.getItem("username");
   },
+    created(){
+    this.menutoggle();
+  }
 };
 </script>
 <style>
@@ -122,7 +146,12 @@ export default {
   font-weight: normal;
   background: #28df99;
   border-radius: 30px;
+  text-decoration: none !important;
   padding: 8px 30px;
   color: white;
 }
+.router-link{
+  text-decoration: none !important;
+}
+
 </style>

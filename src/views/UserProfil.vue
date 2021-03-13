@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-overlay :value="loading" :opacity="0.9">
+    <v-overlay :value="loading" :opacity="1" color="#fff">
       <v-progress-circular
         indeterminate
         style="color: #28df99"
@@ -13,23 +13,27 @@
             <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
-            <ul id="MenuItems">
+            <ul v-show="mItem">
               <li>
-                <router-link to="/">Home</router-link>
+                <router-link to="/" class="router-link">Home</router-link>
               </li>
               <li>
-                <router-link to="/Produk">Produk</router-link>
+                <router-link to="/Produk" class="router-link"
+                  >Produk</router-link
+                >
               </li>
               <li>
-                <router-link to="/Cari">Cari</router-link>
+                <router-link to="/Cari" class="router-link">Cari</router-link>
               </li>
-        
+
               <li v-if="this.id == null">
-                <router-link to="/Login">Login</router-link>
+                <router-link to="/Login" class="router-link">Login</router-link>
               </li>
               <li v-else>
                 <div v-if="this.role == 'SELLER'">
-                  <router-link to="/Dashboard">Dashboard</router-link>
+                  <router-link to="/Dashboard" class="router-link"
+                    >Dashboard</router-link
+                  >
                 </div>
                 <div v-else>
                   <router-link to="/user" class="hover-c">{{
@@ -45,9 +49,9 @@
             @click="menutoggle()"
           />
         </div>
-       
-        <div class="card shadow">
-          <div class="card-body">
+
+        <div class="card shadow type-R">
+          <div class="card-body overflow-auto">
             <h4 class="text-center">Daftar Transaksi</h4>
             <table class="table table-bordered mt-4">
               <thead>
@@ -66,10 +70,11 @@
                   <th class="text-center">
                     <img
                       @click="overlay(e.product_key)"
-                      src="https://cdn.vuetifyjs.com/images/cards/cooking.png"
+                      :src="img + e.product_img1"
                       style="width: 75px; height: 75px"
                     />
                   </th>
+
                   <td>{{ e.product_name }}</td>
                   <td>{{ e.description }}</td>
                   <td>{{ e.product_price }}</td>
@@ -96,7 +101,7 @@
                     <button
                       @click="confirm(e.id)"
                       style="
-                        color:white;
+                        color: white;
                         margin-top: 30px;
                         border-radius: 5px;
                         background: #28df99;
@@ -113,7 +118,7 @@
                     v-if="e.status == 'SELESAI'"
                   >
                     <button
-                      @click="confirm(e.id)"
+                      @click="rStatus(e.id)"
                       style="
                         margin-top: 30px;
                         border-radius: 5px;
@@ -130,6 +135,19 @@
             </table>
           </div>
         </div>
+
+        <button
+          class="bg-danger"
+          style="
+            color: white;
+            margin-top: 20px;
+            border-radius: 5px;
+            height: 43px;
+            width: 90px;
+          "
+        >
+          Logout
+        </button>
       </div>
     </div>
   </div>
@@ -145,10 +163,14 @@ export default {
       role: "",
       loading: false,
       items: [],
+      img: "http://localhost:8000/api/v1/src/",
+      mItem: true,
       // Nav:false
     };
   },
   mounted() {
+    this.mItem = true;
+    window.addEventListener("resize", this.myEventHandler);
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
     this.role = localStorage.getItem("role_user");
@@ -163,7 +185,7 @@ export default {
       .then((response) => {
         this.items = response.data.DATA;
         console.log(this.items);
-        this.$router.reload()
+        this.$router.reload();
       })
       .catch(function (response) {
         console.log(response);
@@ -171,13 +193,13 @@ export default {
   },
   methods: {
     getPdf(id) {
-       axios({
+      axios({
         method: "get",
         url: `${this.$api}getPdf/${id}`,
-        });
+      });
     },
     confirm(id) {
-      this.loading = true
+      this.loading = true;
       var bodyFormData = new FormData();
       bodyFormData.append("id", id);
       axios({
@@ -187,10 +209,40 @@ export default {
         headers: { "Content-Type": "multipart/form-data" },
       }).then((res) => {
         if (res.data.MESSAGE == "SUCCESS") {
-         this.$router.go(this.$router.currentRoute)
-          this.loading = false
+          this.$router.go(this.$router.currentRoute);
+          this.loading = false;
         }
       });
+    },
+    rStatus(id) {
+      this.loading = true;
+      var bodyFormData = new FormData();
+      bodyFormData.append("id", id);
+      axios({
+        method: "post",
+        url: `${this.$api}removestatus`,
+        data: bodyFormData,
+        headers: { "Content-Type": "multipart/form-data" },
+      }).then((res) => {
+        if (res.data.MESSAGE == "SUCCESS") {
+          this.$router.go(this.$router.currentRoute);
+          this.loading = false;
+        }
+      });
+    },
+    menutoggle() {
+      this.mItem = !this.mItem;
+    },
+
+    myEventHandler() {
+      var x = window.matchMedia("(max-width: 800px)");
+      var b = window.matchMedia("(min-width: 800px)");
+      if (b.matches) {
+        this.mItem = true;
+      }
+      if (x.matches) {
+        this.mItem = false;
+      }
     },
   },
 };
@@ -202,5 +254,8 @@ export default {
   border-radius: 30px;
   padding: 8px 30px;
   color: white;
+}
+.router-link {
+  text-decoration: none !important;
 }
 </style>
