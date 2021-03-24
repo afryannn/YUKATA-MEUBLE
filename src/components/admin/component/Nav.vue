@@ -7,7 +7,7 @@
           <span style="color: white; margin-left: 8px">Home</span>
         </button>
       </li>
-        <li>
+      <li>
         <button @click="toStore()">
           <span><i class="fas fa-store" style="color: white"></i></span>
           <span style="color: white; margin-left: 8px">Toko</span>
@@ -15,7 +15,7 @@
       </li>
       <li>
         <button @click="toProduk()">
-          <span><i class="fas fa-table" style="color:white"></i></span>
+          <span><i class="fas fa-table" style="color: white"></i></span>
           <span style="color: white; margin-left: 8px">Produk</span>
         </button>
       </li>
@@ -27,7 +27,7 @@
       </li>
       <li>
         <button @click="toDashboard()">
-          <span><i class="fas fa-chart-line" style="color:white"></i></span>
+          <span><i class="fas fa-chart-line" style="color: white"></i></span>
           <span style="color: white; margin-left: 8px">Dashboard</span>
         </button>
       </li>
@@ -43,10 +43,27 @@
           <span style="color: white; margin-left: 8px">Hapus Produk</span>
         </button>
       </li>
+
+      <li v-show="lgt">
+        <button @click="toLogout()">
+          <span><i class="fas fa-sign-out-alt" style="color: white"></i></span>
+          <span style="color: white; margin-left: 8px">Logout</span>
+        </button>
+      </li>
+
       <li>
         <button>
-          <span><i class="fas fa-file-excel" style="color:white"></i></span>
-         <span><a v-bind:href='this.url' style="margin-left: 8px !important; font-size:16px;">Unduh Transaksi</a></span>
+          <span v-show="strns"
+            ><i class="fas fa-file-excel" style="color: white"></i
+          ></span>
+          <span
+            ><a
+              v-bind:href="this.url"
+              style="margin-left: 8px !important; font-size: 16px"
+              v-show="strns"
+              >Unduh Transaksi</a
+            ></span
+          >
         </button>
       </li>
     </ul>
@@ -54,39 +71,72 @@
 </template>
 <script>
 export default {
-  data(){
-   return{
-     url:''
-   }
+  data() {
+    return {
+      url: "",
+      strns: true,
+      lgt: false,
+    };
   },
-  mounted(){
-    var stringurl = `${this.$api}getExcel/`+localStorage.getItem('user-id')
-    this.url = stringurl
+  mounted() {
+    if (localStorage.getItem("store-status") == "FALSE") {
+      this.strns = false;
+      this.lgt = true;
+    } else {
+      this.strns = true;
+      this.lgt = false;
+      var stringurl = `${this.$api}getExcel/` + localStorage.getItem("user-id");
+      this.url = stringurl;
+    }
   },
   methods: {
+    toLogout() {
+      localStorage.removeItem("user-id");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      localStorage.removeItem("user-id");
+      localStorage.removeItem("store-status");
+      localStorage.removeItem("telephone");
+      localStorage.removeItem("role_user");
+      window.location.href = `${this.$app}`;
+    },
     toEdit() {
-      this.$router.replace({ name: "EditProduk" });
+      if (localStorage.getItem("store-status") == "FALSE") {
+        this.$router.replace({ name: "NewStore" });
+      } else {
+        this.$router.replace({ name: "EditProduk" });
+      }
     },
-    toStore(){
-         var name = localStorage.getItem('store');
-        if(name == '')
-           {
-               console.log('err');
-           }
-              location.href = "http://localhost:8080/s/"+name;
-
+    toStore() {
+      if (localStorage.getItem("store-status") == "FALSE") {
+        this.$router.replace({ name: "NewStore" });
+      } else {
+        var name = localStorage.getItem("store");
+        if (name == "") {
+          console.log("err");
+        }
+        location.href = `${this.$app}s/` + name;
+      }
     },
-    toProduk(){
-      this.$router.replace({ name: "MyProduk" });
+    toProduk() {
+      if (localStorage.getItem("store-status") == "FALSE") {
+        this.$router.replace({ name: "NewStore" });
+      } else {
+        this.$router.replace({ name: "MyProduk" });
+      }
     },
     toGuide() {
       this.$router.replace({ name: "Guide" });
     },
     toDelete() {
-      this.$router.replace({ name: "Remove" });
+      if (localStorage.getItem("store-status") == "FALSE") {
+        this.$router.replace({ name: "NewStore" });
+      } else {
+        this.$router.replace({ name: "Remove" });
+      }
     },
     toDashboard() {
-     location.href = "http://localhost:8080/Dashboard";
+      location.href = `${this.$app}Dashboard`;
     },
     toHome() {
       this.$router.replace({ name: "Home" });

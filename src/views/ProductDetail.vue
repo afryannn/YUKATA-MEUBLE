@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-overlay :value="loading" :opacity="0.9">
+    <v-overlay :value="loading" :opacity="1" color="#fff">
       <v-progress-circular
         indeterminate
         style="color: #28df99"
@@ -9,7 +9,7 @@
 
     <v-overlay :value="iShow" :opacity="0.8" @click="close()">
       <div class="card">
-        <img :src="urlform" style="width: 500px" @click="close()" />
+        <img :src="urlform" class="res-img" @click="close()" />
       </div>
     </v-overlay>
     <div class="my-header">
@@ -19,29 +19,37 @@
             <img src="../assets/b.png" width="180px" />
           </div>
           <nav>
-            <ul id="MenuItems">
+           <ul v-show="mItem">
               <li>
-                <router-link to="/">Home</router-link>
+                <router-link to="/" class="router-link">Home</router-link>
               </li>
-              <li>
+              <li style="text-decoration:none;">
                 <router-link to="/Produk" class="hover-c">Produk</router-link>
               </li>
               <li>
-                <router-link to="/Cari">Cari</router-link>
+                <router-link to="/Cari"  class="router-link">Cari</router-link>
               </li>
               <!-- <li>
                 <router-link to="/Tentang">Tentang</router-link>
               </li> -->
-              <li v-if="this.id == null">
-                <router-link to="/Login">Login</router-link>
+          <li v-if="(this.id == null)">
+                <router-link to="/Login" class="router-link">Login</router-link>
               </li>
               <li v-else>
-                <router-link to="/">{{ this.username }}</router-link>
+                <div v-if="(this.role == 'SELLER')">
+                  <router-link to="/Dashboard" class="router-link">Dashboard</router-link>
+                </div>
+                <div v-else>
+                  <router-link to="/user" class="router-link">{{this.username}}</router-link>
+                </div>
               </li>
             </ul>
           </nav>
-          <!-- <img src="../assets/images/cart.png" width="30px" height="30px"/> -->
-          <img src="../assets/images/menu.png" class="menu-icon" />
+            <img
+            src="../assets/images/menu.png"
+            class="menu-icon"
+            @click="menutoggle()"
+          />
         </div>
       </div>
     </div>
@@ -59,8 +67,8 @@
           <!-- //main -->
           <div class="row mt-3">
             <img
-              class="ml-3"
-              style="border-radius: 13px"
+              class="ml-3 res-img"
+              style="border-radius: 13px;width:20%;"
               :src="url + img2"
               width="20%"
               id="ProductImg"
@@ -112,7 +120,7 @@
             class="txt-area-2 form-control"
           >
           </b-textarea>
-          <p v-show="alertAddress" style="color: red; font-size: 13px">
+          <p v-show="alertAddress" style="color: red; font-size: 13px; margin:0px !important">
             * Mohon Isi Alamat Lengkap!
           </p>
           <div style="height: 10px"></div>
@@ -174,9 +182,24 @@ export default {
       img5: "",
       iShow: false,
       urlform: "",
+      mItem:true
     };
   },
   methods: {
+       menutoggle() {
+        this.mItem = !this.mItem;
+    },
+
+    myEventHandler() {
+      var x = window.matchMedia("(max-width: 800px)")
+      var b = window.matchMedia("(min-width: 800px)")
+        if(b.matches){
+        this.mItem = true
+      }
+      if(x.matches){
+        this.mItem = false
+      }
+    },
     zoomImg(props) {
       this.iShow = true;
       var src = "http://localhost:8000/api/v1/src/" + props;
@@ -187,13 +210,17 @@ export default {
       this.iShow = false;
     },
     store(e) {
-      var url = "http://localhost:8080/s/" + e;
+      var url = `${this.$app}s/`+ e;
       window.location.href = url;
     },
     setProduct(data) {
       this.datas = data;
     },
     async Buy() {
+      if(localStorage.getItem("role_user") == "SELLER"){
+                    this.$router.replace({ name: "Dashboard" });
+       
+      }else{
       var i = 0;
       var description = this.description;
       let dscVal = "";
@@ -242,11 +269,12 @@ export default {
             data: bodyFormData,
             headers: { "Content-Type": "multipart/form-data" },
           })
-            .then((res) => {
-              console.log(res);
+            .then(() => {
               this.loading = false;
+              this.$router.replace({ name: "user" });
             })
         }
+      }
       }
     },
   },
@@ -254,6 +282,7 @@ export default {
     //this.loading = true;
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
+     this.role = localStorage.getItem("role_user");
     axios
       .get(`${this.$api}Detail/` + this.$route.params.product_key)
       .then((response) => {
@@ -300,6 +329,9 @@ export default {
 .pwa {
   margin-top: 3px;
 }
+.res-img{
+  width: 500px;
+}
 @media only screen and (max-width: 800px) {
   .txt-area-1 .txt-area-2 {
     width: 20rem;
@@ -309,5 +341,14 @@ export default {
   .txt-area-1 .txt-area-2 {
     width: 17rem;
   }
+}
+@media only screen and (max-width:600px) {
+    .res-img{
+        width:50%;
+        margin-left:100px;
+      }
+      .card{
+        background: transparent;
+      }
 }
 </style>

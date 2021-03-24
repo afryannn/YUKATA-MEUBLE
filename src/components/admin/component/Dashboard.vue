@@ -1,6 +1,6 @@
 <template>
   <div>
-     <v-overlay :value="loading" :opacity="1" color="#fff">
+    <v-overlay :value="loading" :opacity="1" color="#fff">
       <v-progress-circular
         indeterminate
         style="color: #28df99"
@@ -11,13 +11,11 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5 >Jumlah Produk</h5>
-            <h4 class="text-center">{{this.jProduk}}</h4>
+            <h5>Jumlah Produk</h5>
+            <h4 class="text-center">{{ this.jProduk }}</h4>
           </div>
         </div>
-        <div class="fr-card-footer">
-           
-        </div>
+        <div class="fr-card-footer"></div>
       </div>
 
       <div class="fr-card-single">
@@ -25,7 +23,7 @@
           <span class="ti-briefcase"></span>
           <div>
             <h5>Jumlah Pesanan</h5>
-            <h4 class="text-center">{{this.jPesanan}}</h4>
+            <h4 class="text-center">{{ this.jPesanan }}</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -37,8 +35,8 @@
         <div class="fr-card-body">
           <span class="ti-briefcase"></span>
           <div>
-            <h5>Pesanan Sukses</h5>
-            <h4 class="text-center">{{this.jSuccess}}</h4>
+            <h5>Pesanan Selesai</h5>
+            <h4 class="text-center">{{ this.jSuccess }}</h4>
           </div>
         </div>
         <div class="fr-card-footer">
@@ -73,10 +71,12 @@
                   <td>{{ data.address_customer }}</td>
                   <td>{{ data.product_price }}</td>
                   <td v-if="data.status == 'DI PROSES'">
-                    <span class="badge success"> Di PROSES </span>
+                    <span class="badge badge-warning" style="color: #fff">
+                      Di PROSES
+                    </span>
                   </td>
                   <td v-else>
-                    <span class="badge success"> SELESAI </span>
+                    <span class="badge badge-success"> SELESAI </span>
                   </td>
                 </tr>
               </tbody>
@@ -96,11 +96,19 @@
             </Button>
           </router-link>
           <Button
+            class="fr-btn-transaksi btn-warning"
+            style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2)"
+            @click="clear()"
+          >
+            <p class="p-button-add" style="margin:0 !important;">Bersihkan Data<br>Transaksi</p>
+          </Button>
+
+          <Button
             class="fr-btn-delete btn-danger"
             style="box-shadow: 0 1px 8px 0 rgba(0, 0, 0, 0.2)"
             @click="Logout()"
           >
-            <p class="p-button-add">Logout</p>
+            <p class="p-button-add" style="margin:0 !important;">Logout</p>
           </Button>
         </div>
       </div>
@@ -114,10 +122,10 @@ export default {
   data() {
     return {
       transactions: [],
-      jProduk:'',
-      jPesanan:'',
-      jSuccess:'',
-      loading:false
+      jProduk: "",
+      jPesanan: "",
+      jSuccess: "",
+      loading: false,
     };
   },
   methods: {
@@ -132,38 +140,50 @@ export default {
       localStorage.removeItem("role_user");
       this.$router.replace({ name: "Login" });
     },
+    clear(){
+    this.loading = true;
+    var id = localStorage.getItem("user-id");
+    var bodyFormData = new FormData();
+    bodyFormData.append("id", id);
+    axios({
+      method: "post",
+      url: `${this.$api}delete-transaction`,
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then(() => {
+      location.reload();
+      this.loading = false
+    });
+    }
   },
   mounted() {
-      // console.log(localStorage.getItem('storeId'));
-      this.loading = true
-      var id = localStorage.getItem('user-id');
-      var bodyFormData = new FormData();
-      bodyFormData.append("id",id);
-      axios({
-        method: "post",
-        url: `${this.$api}seller_transaksi`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          this.setTransaction(response.data.DATA);
-          this.loading = false
-        })
-     var TbodyFormData = new FormData();
-      TbodyFormData.append("user_id",id);
-        axios({
-        method: "post",
-        url: `${this.$api}count-product`,
-        data: TbodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          localStorage.setItem("store",response.data.DATA.BY_STORE);
-          this.jProduk = response.data.DATA.J_PRODUK
-          this.jPesanan = response.data.DATA.J_TRNS
-          this.jSuccess = response.data.DATA.J_SUCCS
-        })
-    },
+    this.loading = true;
+    var id = localStorage.getItem("user-id");
+    var bodyFormData = new FormData();
+    bodyFormData.append("id", id);
+    axios({
+      method: "post",
+      url: `${this.$api}seller_transaksi`,
+      data: bodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then((response) => {
+      this.setTransaction(response.data.DATA);
+      this.loading = false;
+    });
+    var TbodyFormData = new FormData();
+    TbodyFormData.append("user_id", id);
+    axios({
+      method: "post",
+      url: `${this.$api}count-product`,
+      data: TbodyFormData,
+      headers: { "Content-Type": "multipart/form-data" },
+    }).then((response) => {
+      localStorage.setItem("store", response.data.DATA.BY_STORE);
+      this.jProduk = response.data.DATA.J_PRODUK;
+      this.jPesanan = response.data.DATA.J_TRNS;
+      this.jSuccess = response.data.DATA.J_SUCCS;
+    });
+  },
 };
 </script>
 
@@ -177,7 +197,7 @@ export default {
 .fr-btn-delete {
   margin-top: 10px;
   width: 10rem;
-  height: 60px;
+  height: 53px;
   border-radius: 8px;
 }
 .p-button-add {
@@ -188,5 +208,11 @@ export default {
 }
 button:focus {
   outline: 0 !important;
+}
+.fr-btn-transaksi{
+  margin-top: 10px;
+  width: 10rem;
+  height: 65px;
+  border-radius: 8px;
 }
 </style>

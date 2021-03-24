@@ -97,7 +97,7 @@
               >
                 <img
                   style="height: 150px; width: 150px; margin-left: 30px"
-                  class="card-img-top"
+                  class="card-img-top mt-2"
                   :src="url+e.img1"
                   alt="Card image cap"
                 />

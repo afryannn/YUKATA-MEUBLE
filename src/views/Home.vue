@@ -65,7 +65,7 @@
             <img src="../assets/images/Banner/small-banner-2.png" alt="" />
           </div>
           <div class="my-col-3">
-            <img src="../assets/images/Banner/small-banner-1.png" alt="" />
+            <img src="../assets/images/Banner/dinningtable.jpg" style="height:340px;" />
           </div>
         </div>
       </div>

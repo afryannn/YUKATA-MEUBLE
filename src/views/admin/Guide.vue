@@ -5,7 +5,7 @@
     <div class="fr-sidebar">
       <div class="fr-sidebar-header">
         <h3 class="fr-brand">
-          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+            <img src="../../assets/yktseller.png" width="13%" ><span class="t-spn ml-2" style="font-size: 13px">SELLER YUKATA</span>
         </h3>
         <label for="sidebar-toggle" class="ti-menu-alt"></label>
       </div>
@@ -34,25 +34,34 @@
             <h3 class="text-center" style="color: #28df99">Guide Seller</h3>
             <div class="container mt-4">
               <div class="class-guide">
-                <h5 class="text-secondary">Peraturan Upload Data Produk</h5>
+                <h5 class="text-secondary">Petunjuk Penjual</h5>
                 <div class="row mt-2 ml-1">
                   <table class="table table-borderless">
                     <tbody>
                       <tr style="background: none">
                         <td style="width: 1px !important; color: #28df99">
                           <span class="dot"></span>
+                          <span class="dot"></span><br><br>
                           <span class="dot"></span>
-            
+                          <span class="dot"></span>
+                          <span class="dot"></span>
                         </td>
                         <td>
                           <p style="margin:0 !important;">
-                            Judul harus sesuai nama produk yang anda punya di
-                            gudang
+                            Judul harus sesuai nama produk yang anda jual
                           </p>
                            <p style="margin:0 !important;">
-                            Deskripsi Di peruntukan untuk memberi detail data produk.
+                            Deskripsi Di peruntukan untuk memberi detail data produk<br>seperti (Warna,Ukuran dan Kategori).
                           </p>
-                     
+                           <p style="margin:0 !important;">
+                             Penjual Harus Memasukan Rekening yang valid ketika customer checkout.
+                          </p>
+                           <p style="margin:0 !important;">
+                            Penjual Boleh memodifikasi File .xslx yang diunduh.
+                          </p>
+                           <p style="margin:0 !important;">
+                            Penjual harus memberi Alamat Dan Nomor Telephone yang valid.
+                          </p>
                         </td>
                       </tr>
                     </tbody>
@@ -68,11 +77,17 @@
                       <tr style="background: none">
                         <td style="width: 1px !important; color: #28df99">
                           <span class="dot"></span>
+                          <span class="dot" style="margin-top:180px;"></span>
                         </td>
                         <td>
                           <p style="margin:0 !important;">
                             Ukuran Banner Toko Harus <b style="color: #28df99">1630px</B> <b>X</b> <b style="color: #28df99">458px</b><br><br>
                             <img class="shadow" width="40%" src="http://localhost:8000/api/v1/mediastore/templateBanner.png"><br><br>
+                             Klik Untuk <a href="#"><b style="color: #28df99">Unduh</b></a>
+                          </p>
+                          <p style="margin:0 !important;">
+                            Ukuran Profil Toko Harus <b style="color: #28df99">900px</B> <b>X</b> <b style="color: #28df99">900px</b><br><br>
+                            <img class="shadow" width="10%" src="http://localhost:8000/api/v1/mediastore/templateProduk.png"><br><br>
                              Klik Untuk <a href="#"><b style="color: #28df99">Unduh</b></a>
                           </p>
                         </td>

@@ -12,7 +12,9 @@
                 <router-link to="/" class="router-link">Home</router-link>
               </li>
               <li>
-                <router-link to="/Produk" class="router-link">Produk</router-link>
+                <router-link to="/Produk" class="router-link"
+                  >Produk</router-link
+                >
               </li>
               <li>
                 <router-link to="/Cari" class="hover-c">Cari</router-link>
@@ -24,11 +26,13 @@
                 <router-link to="/Login" class="router-link">Login</router-link>
               </li>
               <li v-else>
-                <router-link to="/user" class="router-link">{{ this.username }}</router-link>
+                <router-link to="/user" class="router-link">{{
+                  this.username
+                }}</router-link>
               </li>
             </ul>
           </nav>
-            <img
+          <img
             src="../assets/images/menu.png"
             class="menu-icon"
             @click="menutoggle()"
@@ -63,7 +67,13 @@
                 </button>
               </div>
             </div>
+            <div class="mt-3">
+              <p>Pencarian Populer :</p>
+              <span  v-for="e in popularity" v-bind:key="e.id" @click="clkpopular(e.title)" 
+              class="badge badge-pill m-1 my-popular"><p class="mt-1" style="color:#28df99"><i class="fab fa-hotjar"></i> {{e.title}}</p></span>
+            </div>
           </div>
+
           <h3 class="text-center">Hasil Produk</h3>
 
           <div class="my-row pr">
@@ -82,10 +92,10 @@
                   style="text-decoration: none !important"
                 >
                   <div class="card-body">
-                    <img :src="url+data.img1" />
+                    <img :src="url + data.img1" />
                     <h6
                       style="
-                        font-size:18px;
+                        font-size: 18px;
                         color: #222831 !important;
                         font-weight: bold !important;
                       "
@@ -128,13 +138,17 @@ export default {
       dSearch: [],
       loading: false,
       isEmpty: true,
-      url:"http://localhost:8000/api/v1/src/",
-      mItem:true
+      url: "http://localhost:8000/api/v1/src/",
+      mItem: true,
+      popularity:[],
     };
   },
   methods: {
     setSearch(data) {
       this.dSearch = data;
+    },
+    clkpopular(title){
+      this.search = title
     },
     searchProduct() {
       if (!this.search) {
@@ -143,6 +157,15 @@ export default {
         this.loading = true;
         this.isEmpty = false;
         this.notfound = false;
+
+        var bodyFormDataa = new FormData();
+        bodyFormDataa.append("title", this.search);
+        axios({
+          method: "post",
+          url: `${this.$api}post_popularity`,
+          data: bodyFormDataa,
+          headers: { "Content-Type": "multipart/form-data" },
+        })
         var bodyFormData = new FormData();
         bodyFormData.append("kata_kunci", this.search);
         axios({
@@ -151,7 +174,6 @@ export default {
           data: bodyFormData,
           headers: { "Content-Type": "multipart/form-data" },
         }).then((response) => {
-          console.log(response.data.DATA);
           this.notfound = false;
           this.loading = false;
           this.isEmpty = true;
@@ -164,25 +186,32 @@ export default {
       }
     },
     menutoggle() {
-        this.mItem = !this.mItem;
+      this.mItem = !this.mItem;
     },
 
     myEventHandler() {
-      var x = window.matchMedia("(max-width: 800px)")
-      var b = window.matchMedia("(min-width: 800px)")
-        if(b.matches){
-        this.mItem = true
+      var x = window.matchMedia("(max-width: 800px)");
+      var b = window.matchMedia("(min-width: 800px)");
+      if (b.matches) {
+        this.mItem = true;
       }
-      if(x.matches){
-        this.mItem = false
+      if (x.matches) {
+        this.mItem = false;
       }
-    }
+    },
   },
   mounted() {
-    this.mItem = true
+    this.mItem = true;
     window.addEventListener("resize", this.myEventHandler);
     this.id = localStorage.getItem("user-id");
     this.username = localStorage.getItem("username");
+     axios({
+          method: "get",
+          url: `${this.$api}get_popularity`,
+          headers: { "Content-Type": "multipart/form-data" },
+        }).then((response) => {
+           this.popularity = response.data.DATA
+        });
   },
 };
 </script>
@@ -194,7 +223,17 @@ export default {
   padding: 8px 30px;
   color: white;
 }
-.router-link{
+.router-link {
   text-decoration: none !important;
+}
+.my-popular{
+  height:28px;
+  border: 1.5px solid #28df99;
+  background:none;
+  color:#28df99;
+}
+.my-popular:hover{
+  background-color:rgba(40, 223, 153,0.3);
+   border: 1.5px solid #fff;
 }
 </style>

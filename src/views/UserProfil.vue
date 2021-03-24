@@ -50,7 +50,7 @@
           />
         </div>
 
-        <div class="card shadow type-R">
+        <div class="card shadow type-R overflow-auto">
           <div class="card-body overflow-auto">
             <h4 class="text-center">Daftar Transaksi</h4>
             <table class="table table-bordered mt-4">
@@ -137,7 +137,8 @@
         </div>
 
         <button
-          class="bg-danger"
+          @click="Logout()"
+          class="bg-danger usr-lg"
           style="
             color: white;
             margin-top: 20px;
@@ -192,6 +193,13 @@ export default {
       });
   },
   methods: {
+     Logout() {
+      localStorage.removeItem("user-id");
+      localStorage.removeItem("username");
+      localStorage.removeItem("email");
+      localStorage.removeItem("role_user");
+      this.$router.replace({ name: "Login" });
+    },
     getPdf(id) {
       axios({
         method: "get",

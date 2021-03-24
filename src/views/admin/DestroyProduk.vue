@@ -1,11 +1,17 @@
 <template>
   <div>
+     <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+      </v-overlay>
     <!--------------------NAVBAR---------------------->
     <input type="checkbox" id="sidebar-toggle" />
     <div class="fr-sidebar">
       <div class="fr-sidebar-header">
         <h3 class="fr-brand">
-          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+          <img src="../../assets/yktseller.png" width="13%" ><span class="t-spn ml-2" style="font-size: 13px">SELLER YUKATA</span>
         </h3>
         <label for="sidebar-toggle" class="ti-menu-alt"></label>
       </div>
@@ -108,16 +114,17 @@ import axios from 'axios'
 export default {
   components: {
     Nav,
-    
   },
     data() {
     return {
       items: [],
-      img : ''
+      img : '',
+      loading:false
     };
   },
   methods: {
     go(data) {
+      this.loading = true
       var bodyFormData = new FormData();
       bodyFormData.append("key_product", data);
       axios({
@@ -127,9 +134,9 @@ export default {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then(() => {
+          this.loading = false
           this.$router.replace({ name: "Dashboard" });
         })
-        .catch(function () {});
     },
   },
   mounted() {

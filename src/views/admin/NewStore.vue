@@ -1,5 +1,11 @@
 <template>
   <div>
+      <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+      </v-overlay>
     <!--------------------NAVBAR---------------------->
     <input type="checkbox" id="sidebar-toggle" />
     <div class="fr-sidebar">
@@ -67,7 +73,7 @@
                       <img
                         class="rounded-circle"
                         :src="this.iProfil"
-                        width="23%"
+                        width="15%"
                       />
                     </div>
                     <div class="col">
@@ -189,7 +195,7 @@ export default {
   },
   data() {
     return {
-      iProfil: "https://cdn.vuetifyjs.com/images/cards/cooking.png",
+      iProfil: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSDGQO5-8CPA9Hzl5_wLkAf6VtlMw52q7IwRw&usqp=CAU",
       iBanner:
         "https://i.pinimg.com/originals/df/6c/f3/df6cf34bde9aac77b3629846f6eaf481.jpg",
       err: {
@@ -205,6 +211,7 @@ export default {
       tlp: "",
       address: "",
       desc: "",
+      loading:false
     };
   },
   methods: {
@@ -247,6 +254,7 @@ export default {
       }
     },
     store() {
+     this.loading = true
      var name = "";
       var address = "";
       var desc = "";
@@ -285,12 +293,10 @@ export default {
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
       })
-        .then((response) => {
-          console.log(response);
+        .then(() => {
+           this.loading = false
+           this.$router.replace({ name: "Dashboard" });
         })
-        .catch(function (response) {
-          console.log(response);
-        });
     },
   },
 

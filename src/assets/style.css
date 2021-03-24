@@ -333,6 +333,7 @@ ul {
     .pr{
         margin-left:10px;
     }
+    
     nav ul {
         position: absolute;
         top: 70px;
@@ -364,7 +365,9 @@ ul {
     .my-row {
         text-align: center;
     }
-
+    .res-img{
+        width:20%;
+      }
     .my-col-2,
     .my-col-3,
     .my-col-4 {
@@ -383,6 +386,11 @@ ul {
         font-size: 26px;
         line-height: 32px;
     }
+
+    .usr-lg{
+       padding-top: 10px;    
+    }
+
 }
 
 .row-2 {

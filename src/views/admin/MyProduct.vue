@@ -5,7 +5,7 @@
     <div class="fr-sidebar">
       <div class="fr-sidebar-header">
         <h3 class="fr-brand">
-          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+          <img src="../../assets/yktseller.png" width="13%" ><span class="t-spn ml-2" style="font-size: 13px">SELLER YUKATA</span>
         </h3>
         <label for="sidebar-toggle" class="ti-menu-alt"></label>
       </div>

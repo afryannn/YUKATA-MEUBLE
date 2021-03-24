@@ -12,10 +12,10 @@
             </div>
           </div>
           <div class="footer-col-2">
-            <img src="images/logo-white.png" />
+            <img src="../assets/yktfooter.png" style="width:50px"/>
             <p>
-              Our purposeis to sustainably make the pleasure and benefitsof
-              sport accessible to the many.
+              Sebuah Website untuk mengumpulkan seluruh produsen mebel di jepara,
+              dan siap menarik lebih banyak pengunjung.
             </p>
           </div>
           <div class="footer-col-3">

@@ -1,11 +1,16 @@
 <template>
   <div>
-    <loading v-show="loading"></loading>
-    <v-text-field
+     <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+      </v-overlay>
+    <v-textarea
       class="text-green"
       v-model="valProductDesc"
       label="Deskripsi"
-    ></v-text-field>
+    ></v-textarea>
     <p v-show="eDesc" style="color: red; font-size: 13px">
       * Deskripsi Tidak Boleh Kosong!!
     </p>
@@ -165,10 +170,10 @@
 
 <script>
 import axios from "axios";
-import loading from '../loading';
+
 export default {
   components:{
-    loading
+ 
   },
   data() {
     return {

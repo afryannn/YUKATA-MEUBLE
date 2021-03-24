@@ -1,7 +1,6 @@
 <template>
   <div>
      <v-overlay :value="loading" :opacity="1" color="#fff">
-   
       <v-progress-circular
         indeterminate
         style="color: #28df99"

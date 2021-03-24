@@ -11,7 +11,7 @@
     <div class="fr-sidebar">
       <div class="fr-sidebar-header">
         <h3 class="fr-brand">
-          <span class="t-spn" style="font-size: 10px">SELLER YUKATA</span>
+           <img src="../assets/yktseller.png" width="13%" ><span class="t-spn ml-2" style="font-size: 13px">SELLER YUKATA</span>
         </h3>
         <label for="sidebar-toggle" class="ti-menu-alt"></label>
       </div>
@@ -94,18 +94,29 @@ export default {
         headers: { "Content-Type": "multipart/form-data" },
       })
         .then((response) => {
-          if(response.data.MESSAGE == "ERROR"){
-            this.compMain = true
-            // console.log(localStorage.getItem('user-id'));
-            this.loading = false
-          }else{
+          if(response.data.MESSAGE == "toko tidak ditemukan"){
             this.compMain = false
             this.btnStore = true
+            this.loading = false
+            localStorage.setItem("store-status","FALSE");               
+          }else if(response.data.MESSAGE == "toko ditemukan"){
+            this.compMain = true
+            this.btnStore = false
+            this.loading = false
+            localStorage.setItem("store-status","TRUE");               
           }
+          console.log(response);
+          //   console.log(localStorage.getItem('user-id'));
+            
+          // if(response.data.MESSAGE == "ERROR"){
+          //   this.compMain = true
+          //   console.log(localStorage.getItem('user-id'));
+          //   this.loading = false
+          // }else{
+          //   this.compMain = false
+          //   this.btnStore = true
+          // }
         })
-        .catch(function () {
-        
-        });
   }
 };
 </script>

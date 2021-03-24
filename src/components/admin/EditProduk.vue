@@ -1,6 +1,11 @@
 <template>
   <div class="container">
-  
+    <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="card" style="width: 100%">
       <div class="card-body overflow-auto">
         <table
@@ -23,7 +28,7 @@
               <td>
                 <img
                   @click="overlay(e.product_key)"
-                  :src="src+e.img1"
+                  :src="src + e.img1"
                   style="width: 100px; height: 100px"
                 />
               </td>
@@ -31,7 +36,11 @@
                 <input type="text" v-model="e.product_name" />
               </td>
               <td>
-                <textarea  style="height:100px; width:200px" name="names" v-model="e.description"></textarea>
+                <textarea
+                  style="height: 100px; width: 200px"
+                  name="names"
+                  v-model="e.description"
+                ></textarea>
                 <!-- <input type="text"  /> -->
               </td>
               <td>
@@ -70,12 +79,12 @@
       </div>
 
       <v-overlay :value="screenOverlay">
-        <v-overlay :value="loading2" :opacity="0.90">
-      <v-progress-circular
-        indeterminate
-        style="color: #28df99"
-      ></v-progress-circular>
-    </v-overlay>
+        <v-overlay :value="loading2" :opacity="1" color="#fff">
+          <v-progress-circular
+            indeterminate
+            style="color: #28df99"
+          ></v-progress-circular>
+        </v-overlay>
         <div
           class="card"
           style="
@@ -246,11 +255,11 @@ export default {
         { img4: "" },
         { img5: "" },
       ],
-      img1:"",
-      img2:"",
-      img3:"",
-      img4:"",
-      img5:"",
+      img1: "",
+      img2: "",
+      img3: "",
+      img4: "",
+      img5: "",
       select: [
         { img1: null },
         { img2: null },
@@ -269,7 +278,8 @@ export default {
       loading: false,
       loading2: false,
       slct: null,
-      src:"http://localhost:8000/api/v1/src/"
+
+      src: "http://localhost:8000/api/v1/src/",
     };
   },
   methods: {
@@ -365,6 +375,7 @@ export default {
     },
 
     async imgUpdate() {
+      this.loading = true
       let vImg1 = "";
       let vImg2 = "";
       let vImg3 = "";
@@ -407,7 +418,8 @@ export default {
         vImg5 = this.select.img5;
         console.log("Updated" + vImg5);
       }
-      this.loading2 = true
+      console.log(this.keyProduct)
+      this.loading2 = true;
       var bodyFormData = new FormData();
       bodyFormData.append("key_produk", this.keyProduct);
       bodyFormData.append("img1", vImg1);
@@ -421,12 +433,16 @@ export default {
         url: `${this.$api}update-produk`,
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
-      }).then(() => {
-        this.loading2 = false
+      }).then((r) => {
+        console.log(r)
+        this.loading = false
+        this.loading2 = false;
+         this.$router.replace({ name: "EditProduk" });
       });
     },
+
     async overlay(pKey) {
-      this.loading = true
+      this.loading = true;
       var bodyFormData = new FormData();
       bodyFormData.append("product_key", pKey);
       await axios({
@@ -435,21 +451,28 @@ export default {
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
       }).then((response) => {
-        this.loading = false
+        this.loading = false;
+        console.log(response.data)
         this.keyProduct = response.data.ITEM.product_key;
-        this.iImg.img1 = response.data.ITEM.img1;
-        this.iImg.img2 = response.data.ITEM.img2;
-        this.iImg.img3 = response.data.ITEM.img3;
-        this.iImg.img4 = response.data.ITEM.img4;
-        this.iImg.img5 = response.data.ITEM.img5;
+        this.img1 =  `${this.$api}src/`+response.data.ITEM.img1
+        this.img2 =  `${this.$api}src/`+response.data.ITEM.img2
+        this.img3 =  `${this.$api}src/`+response.data.ITEM.img3
+        this.img4 =  `${this.$api}src/`+response.data.ITEM.img4
+        this.img5 =  `${this.$api}src/`+response.data.ITEM.img5
+        //this.iImg.img1 = response.data.ITEM.img1;
+        // this.iImg.img2 = response.data.ITEM.img2;
+        // this.iImg.img3 = response.data.ITEM.img3;
+        // this.iImg.img4 = response.data.ITEM.img4;
+        // this.iImg.img5 = response.data.ITEM.img5;
         this.screenOverlay = true;
       });
     },
+
     closeOverlay() {
       this.screenOverlay = false;
     },
     StartUpdate(pKey, pName, pDesc, pPrice, pStok) {
-      this.loading = true
+      this.loading = true;
       var bodyFormData = new FormData();
       bodyFormData.append("key_produk", pKey);
       bodyFormData.append("nama_produk", pName);
@@ -463,12 +486,13 @@ export default {
         data: bodyFormData,
         headers: { "Content-Type": "multipart/form-data" },
       }).then(() => {
-         this.loading = false
+        this.loading = false;
+        this.$router.replace({ name: "Dashboard" });
       });
     },
   },
   mounted() {
-    this.loading = true
+    this.loading = true;
     var bodyFormData = new FormData();
     bodyFormData.append("user_id", localStorage.getItem("user-id"));
     axios({
@@ -476,21 +500,20 @@ export default {
       url: `${this.$api}all-store-produk`,
       data: bodyFormData,
       headers: { "Content-Type": "multipart/form-data" },
-    })
-      .then((response) => {
-        this.loading = false
-        this.items = response.data.DATA;
-        var data = response.data.DATA;
-        var i = 0;
-        var url = "http://localhost:8000/api/v1/src/";
-        for (i = 0; i <data.length; i++) {
-        this.img1 = url +data[i].img1
-        this.img2 = url +data[i].img2
-        this.img3 = url +data[i].img3
-        this.img4 = url +data[i].img4
-        this.img5 = url +data[i].img5
+    }).then((response) => {
+      this.loading = false;
+      this.items = response.data.DATA;
+      var data = response.data.DATA;
+      var i = 0;
+      var url = "http://localhost:8000/api/v1/src/";
+      for (i = 0; i < data.length; i++) {
+        this.img1 = url + data[i].img1;
+        this.img2 = url + data[i].img2;
+        this.img3 = url + data[i].img3;
+        this.img4 = url + data[i].img4;
+        this.img5 = url + data[i].img5;
       }
-      })
+    });
   },
 };
 </script>

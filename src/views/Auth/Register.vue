@@ -1,5 +1,11 @@
 <template>
   <v-container grid-list-xs>
+       <v-overlay :value="loading" :opacity="1" color="#fff">
+      <v-progress-circular
+        indeterminate
+        style="color: #28df99"
+      ></v-progress-circular>
+    </v-overlay>
     <div class="pd">
       <v-card class="mx-auto" max-width="600">
         <v-app-bar color="#4EB883"> </v-app-bar>
@@ -25,7 +31,6 @@
                   class="text-green"
                   v-model="nama"
                   label="Nama"
-                  :rules="[(v) => !!v || 'Mohon isi username']"
                   @keyup.enter.native="login"
                 ></v-text-field>
                 <v-text-field
@@ -51,24 +56,25 @@
                   class="text-green"
                   v-model="password"
                   label="Password"
+                  :rules="[(v) => !!v || 'Mohon isi password']"
                   required
                 ></v-text-field>
-                <v-app style="height:0px !important;">
-                <v-checkbox
-                  v-model="isSeller"
-                  label="Daftar Sebagai Penjual"
-                  style="color: #4eb883 !important"
-                  value="Yes"
-                ></v-checkbox>
-                </v-app>
-                <div style="margin-top:70px;">
-                <v-btn class="mr-4 btn-green" @click="Masuk">Daftar</v-btn>
-                <router-link
-                  style="text-decoration: none; color: inherit; font-size: 13px"
-                  class="text-green"
-                  to="/Login"
-                  >Sudah Punya Akun?</router-link
+                <p
+                  v-show="fNull"
+                  style="color: red; font-size: 13px; margin: 0px !important"
                 >
+                  * Mohon lengkapi form yang kosong!
+                </p>
+                <v-app style="height: 0px !important">
+                  <v-checkbox
+                    v-model="isSeller"
+                    label="Daftar Sebagai Penjual"
+                    style="color: #4eb883 !important"
+                    value="Yes"
+                  ></v-checkbox>
+                </v-app>
+                <div style="margin-top: 70px">
+                  <v-btn class="mr-4 btn-green" @click="Masuk">Daftar</v-btn>
                 </div>
               </form>
             </v-col>
@@ -87,52 +93,70 @@ export default {
     return {
       nama: "",
       email: "",
-      telephone:"",
+      telephone: "",
       username: "",
       password: "",
       isSeller: "VISTOR",
       result: [],
+      fNull: false,
+      loading: false,
     };
   },
   methods: {
+    Login() {
+      this.$router.replace({ name: "Guide" });
+    },
     async Masuk() {
-      if (this.isSeller == "Yes") {
-        this.isSeller = "SELLER";
+      if (
+        this.nama == "" ||
+        this.email == "" ||
+        this.telephone == "" ||
+        this.username == "" ||
+        this.password == ""
+      ) {
+        this.fNull = true
       } else {
-        this.isSeller = "VISITOR";
-      }
-      var bodyFormData = new FormData();
-      bodyFormData.append("nama", this.nama);
-      bodyFormData.append("email", this.email);
-      bodyFormData.append("telephone", this.telephone);
-      bodyFormData.append("username", this.username);
-      bodyFormData.append("password", this.password);
-      bodyFormData.append("role_user", this.isSeller);
-      await axios({
-        method: "post",
-        url: `${this.$api}register`,
-        data: bodyFormData,
-        headers: { "Content-Type": "multipart/form-data" },
-      })
-        .then((response) => {
-          var message = response.data.MESSAGE;
-          var role = response.data.DATA.role_user;
-          if (message == "SUCCESS") {
-            localStorage.setItem("user-id", response.data.DATA.id);
-            localStorage.setItem("username", response.data.DATA.username);
-            localStorage.setItem("email", response.data.DATA.email);
-            localStorage.setItem("role_user", role);
-            if (role == "SELLER") {
-              this.$router.replace({ name: "Dashboard" });
-            } else if (role == "VISITOR") {
-              this.$store.commit("setAuthentication", true);
-              this.$router.replace({ name: "Home" });
-            }
-          }
+        this.loading = true
+        this.fNull = false
+        if (this.isSeller == "Yes") {
+          this.isSeller = "SELLER";
+        } else {
+          this.isSeller = "VISITOR";
+        }
+        var bodyFormData = new FormData();
+        bodyFormData.append("nama", this.nama);
+        bodyFormData.append("email", this.email);
+        bodyFormData.append("telephone", this.telephone);
+        bodyFormData.append("username", this.username);
+        bodyFormData.append("password", this.password);
+        bodyFormData.append("role_user", this.isSeller);
+        await axios({
+          method: "post",
+          url: `${this.$api}register`,
+          data: bodyFormData,
+          headers: { "Content-Type": "multipart/form-data" },
         })
-        .catch(function (response) {
-          console.log(response);
-        });
+          .then((response) => {
+            var message = response.data.MESSAGE;
+            var role = response.data.DATA.role_user;
+            if (message == "SUCCESS") {
+              localStorage.setItem("user-id", response.data.DATA.id);
+              localStorage.setItem("username", response.data.DATA.username);
+              localStorage.setItem("email", response.data.DATA.email);
+              localStorage.setItem("role_user", role);
+              if (role == "SELLER") {
+                this.$router.replace({ name: "Dashboard" });
+              } else if (role == "VISITOR") {
+                this.$store.commit("setAuthentication", true);
+                this.$router.replace({ name: "Home" });
+              }
+              this.loading = false
+            }
+          })
+          .catch(function (response) {
+            console.log(response);
+          });
+      }
     },
   },
 };
@@ -153,11 +177,16 @@ export default {
   color: #4eb883 !important;
 }
 .btn-green {
-  
   color: #ffff !important;
   background-color: #4eb883 !important;
 }
-.v-application--wrap{
+.v-application--wrap {
   height: 0px !important;
 }
 </style>
+<style lang="scss">
+#no-background-hover::before {
+  background-color: transparent !important;
+}
+</style>
+
